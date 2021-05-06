@@ -2,20 +2,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+/*
+The authentication service contains functional features required for 
+authentication such as sign in, sign up, sign out, etc.
+It also includes authentication using external apps such as Google account
+and Facebook account.
+
+Note: Provider is used as the primary state management tool to provide
+authentication service to the app.
+*/
+
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   AuthenticationService(this._firebaseAuth);
 
+  // Notifies about changes to the user's sign-in state
   Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+
+  // Returns the current User if they are currently signed-in, or null if not.
   User get currentUser => _firebaseAuth.currentUser;
 
+  // Signs out the current user who is signed is using phone and password
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     print("User signed out");
   }
 
+  // Sign in a user with a given phone or email and password
   Future<bool> signIn({String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -27,6 +42,7 @@ class AuthenticationService {
     }
   }
 
+  // Sign up a user with a given phone or email and password
   Future<String> signUp({String email, String password}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
@@ -42,6 +58,8 @@ class AuthenticationService {
     return "";
   }
 
+  // Sign in a user using the Google account credentials
+  // It will start an interactive sign in process
   Future<String> signInWithGoogle() async {
     try {
       final GoogleSignInAccount googleSignInAccount =
@@ -81,18 +99,21 @@ class AuthenticationService {
     }
   }
 
+  // Signs out the current user who is signed in using the Google account
+  // credentials
   Future<void> signOutGoogle() async {
     await googleSignIn.signOut();
 
     print("Google User Signed Out");
   }
 
+  // Signs out the current user
   Future<void> signOutFromAll() async {
     signOut();
     signOutGoogle();
   }
 
-  /// This would return the current user email Id
+  // Returns the current user email Id
   String returnCurrentEmailId() {
     return _firebaseAuth.currentUser.email;
   }

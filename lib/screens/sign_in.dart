@@ -7,6 +7,15 @@ import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_up.dart';
 import 'package:provider/provider.dart';
 
+/*
+The main purpose of this widget is to check wether the user is signed in or not.
+If the user is signed in then it will push to the Homescreen else the main sign
+in screen will be displayed.
+
+Note: If the user is signed in on the first launch of the app then it will 
+automatically redirect to the homescreen the second time.
+*/
+
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -22,9 +31,12 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
 
+    // If user sign in is successful, then this will push to the HomeScreen()
     if (firebaseUser != null) {
       return HomeScreen();
     }
+
+    // If user is not signed in then this sign in page will be displayed
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
@@ -41,6 +53,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  // This widget contains the title of the app and the logo(if any)
   Widget _headerWidget() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,6 +70,13 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  /*
+  This widget contains two form fields and two buttons
+  It contains three options for user sign in 
+  1) Sign in with phone and password
+  2) Sign in using Google account
+  3) Sign in using Facebook account(Optional)
+  */
   Widget _formWidget() {
     return Form(
       key: _formKey,
@@ -213,6 +233,7 @@ class _SignInState extends State<SignIn> {
   }
 }
 
+// Custom button takes multiple arguments to render the desired button
 class CustomButton extends StatelessWidget {
   final String text;
   final TextStyle style;

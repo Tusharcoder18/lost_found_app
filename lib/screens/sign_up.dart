@@ -7,6 +7,10 @@ import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:lost_found_app/screens/home_screen.dart';
 
+/*
+The main purpose of this widget is to take user input required for sign up such
+as Phone No, password, etc. and use these details to sign up the user.
+*/
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -24,10 +28,12 @@ class _SignUpState extends State<SignUp> {
     // This is for signUp
     final firebaseUser = context.watch<User>();
 
+    // If user sign in is successful, then this will push to the HomeScreen()
     if (firebaseUser != null) {
       return HomeScreen();
     }
 
+    // If user is not signed in then this sign in page will be displayed
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
@@ -44,6 +50,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  // This widget contains the title of the app and the logo(if any)
   Widget _headerWidget() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,6 +67,12 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+  /*
+  This widget contains three form fields for user details
+  The user details used for user sign up are
+  1) Phone Number
+  2) Password
+  */
   Widget _formWidget() {
     return Form(
       key: _formKey,
@@ -68,6 +81,7 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Phone Number form field
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
@@ -98,7 +112,8 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 10,
               ),
-              // Container for just password
+
+              // Password form field
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
@@ -130,7 +145,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 15,
               ),
-              // Container for confirm password
+              // Confirm password form field
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
@@ -164,6 +179,8 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 15,
               ),
+
+              // Sign up custom button
               MaterialButton(
                 elevation: 0,
                 minWidth: double.maxFinite,
@@ -203,43 +220,6 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 15,
               ),
-              // MaterialButton(
-              //   elevation: 0,
-              //   minWidth: double.maxFinite,
-              //   height: 50,
-              //   onPressed: () {},
-              //   color: Colors.redAccent,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: <Widget>[
-              //       Icon(FontAwesomeIcons.google),
-              //       SizedBox(width: 10),
-              //       Text('Sign-up using Google',
-              //           style: Theme.of(context).textTheme.headline1),
-              //     ],
-              //   ),
-              //   textColor: Colors.white,
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // MaterialButton(
-              //   elevation: 0,
-              //   minWidth: double.maxFinite,
-              //   height: 50,
-              //   onPressed: () {},
-              //   color: Colors.blue,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: <Widget>[
-              //       Icon(FontAwesomeIcons.facebook),
-              //       SizedBox(width: 10),
-              //       Text('Sign-up using Facebook',
-              //           style: Theme.of(context).textTheme.headline1),
-              //     ],
-              //   ),
-              //   textColor: Colors.white,
-              // ),
               SizedBox(
                 height: 10,
               ),
