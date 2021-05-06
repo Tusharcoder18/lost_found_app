@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "674152203675",
+    "project_id": "lost-found-app-f31e7",
+    "storage_bucket": "lost-found-app-f31e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674152203675:android:1ad162a02d1d9acb84cd3e",
+        "android_client_info": {
+          "package_name": "com.tense.lost_found_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674152203675-tk8hkm4r1r3po6j1lqfrdpj0efh4vmb1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tense.lost_found_app",
+            "certificate_hash": "fda479a8ad91f97ec697cd82a01ca4211becfa5d"
+          }
+        },
+        {
+          "client_id": "674152203675-mtaktl3mnm81o2ok6n1l2c58ukmocmcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgOkOxIFcTKKSa67wQ4YNHONqYzLgyP7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674152203675-mtaktl3mnm81o2ok6n1l2c58ukmocmcq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
