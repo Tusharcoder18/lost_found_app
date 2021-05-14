@@ -9,7 +9,7 @@ The authentication service contains functional features required for
 authentication such as sign in, sign up, sign out, etc.
 It also includes authentication using external apps such as Google account
 and Facebook account.
-
+2
 Note: Provider is used as the primary state management tool to provide
 authentication service to the app.
 */
