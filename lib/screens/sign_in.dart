@@ -33,7 +33,7 @@ class _SignInState extends State<SignIn> {
 
     // If user sign in is successful, then this will push to the HomeScreen()
     if (firebaseUser != null) {
-      return HomeScreen();
+      return HomeScreen(firebaseUser);
     }
 
     // If user is not signed in then this sign in page will be displayed

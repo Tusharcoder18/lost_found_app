@@ -122,7 +122,6 @@ class AuthenticationService {
     return null;
   }
 
-
   // Signs out the current user who is signed in using the Facebook account
   // credentials
   Future<void> signOutFacebook() async {
