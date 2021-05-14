@@ -201,7 +201,11 @@ class _SignInState extends State<SignIn> {
                   text: "Sign-in using Facebook",
                   icon: Icon(FontAwesomeIcons.facebook),
                   color: Colors.blue,
-                  onTap: () {}),
+                  onTap: () {
+                    print(context
+                        .read<AuthenticationService>()
+                        .signInWithFacebook());
+                  }),
               SizedBox(
                 height: 10,
               ),

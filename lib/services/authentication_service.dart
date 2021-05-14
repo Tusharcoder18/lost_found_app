@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 /*
 The authentication service contains functional features required for 
@@ -15,6 +17,7 @@ authentication service to the app.
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FacebookLogin facebookLogin = FacebookLogin();
 
   AuthenticationService(this._firebaseAuth);
 
@@ -23,12 +26,6 @@ class AuthenticationService {
 
   // Returns the current User if they are currently signed-in, or null if not.
   User get currentUser => _firebaseAuth.currentUser;
-
-  // Signs out the current user who is signed is using phone and password
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-    print("User signed out");
-  }
 
   // Sign in a user with a given phone or email and password
   Future<bool> signIn({String email, String password}) async {
@@ -42,20 +39,10 @@ class AuthenticationService {
     }
   }
 
-  // Sign up a user with a given phone or email and password
-  Future<String> signUp({String email, String password}) async {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return "Signed Up";
-    } catch (signUpError) {
-      if (signUpError is PlatformException) {
-        if (signUpError.code == 'ERROR_MAIL_ALREADY_IN_USE') {
-          return "Email Already exists";
-        }
-      }
-    }
-    return "";
+  // Signs out the current user who is signed is using phone and password
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+    print("User signed out");
   }
 
   // Sign in a user using the Google account credentials
@@ -107,10 +94,63 @@ class AuthenticationService {
     print("Google User Signed Out");
   }
 
+  // Sign in a user using the Facebook account credentials
+  // It will start an interactive sign in process
+  Future<String> signInWithFacebook() async {
+    final FacebookLoginResult result = await facebookLogin.logIn(['email']);
+    switch (result.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        print("Login Cancelled");
+        break;
+      case FacebookLoginStatus.error:
+        print("Login Error!");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        try {
+          final FacebookAccessToken accessToken = result.accessToken;
+          AuthCredential credential =
+              FacebookAuthProvider.credential(accessToken.token);
+          final UserCredential authResult =
+              await _firebaseAuth.signInWithCredential(credential);
+          final User user = authResult.user;
+          return '$user';
+        } catch (e) {
+          print(e);
+        }
+        break;
+    }
+    return null;
+  }
+
+  // Signs out the current user who is signed in using the Facebook account
+  // credentials
+  Future<void> signOutFacebook() async {
+    await facebookLogin.logOut();
+
+    print("Facebook User Signed Out");
+  }
+
   // Signs out the current user
   Future<void> signOutFromAll() async {
     signOut();
     signOutGoogle();
+    signOutFacebook();
+  }
+
+  // Sign up a user with a given phone or email and password
+  Future<String> signUp({String email, String password}) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return "Signed Up";
+    } catch (signUpError) {
+      if (signUpError is PlatformException) {
+        if (signUpError.code == 'ERROR_MAIL_ALREADY_IN_USE') {
+          return "Email Already exists";
+        }
+      }
+    }
+    return "";
   }
 
   // Returns the current user email Id
