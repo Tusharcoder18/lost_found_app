@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:lost_found_app/screens/home_screen.dart';
+import 'package:lost_found_app/screens/categories.dart';
 
 /*
 The main purpose of this widget is to take user input required for sign up such

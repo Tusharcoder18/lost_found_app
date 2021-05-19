@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/services/authentication_service.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -33,8 +35,12 @@ class HomeScreen extends StatelessWidget {
               CustomListTile(Icons.person, 'profile', () => {}),
               CustomListTile(Icons.notifications, 'Notification', () => {}),
               CustomListTile(Icons.settings, 'Settings', () => {}),
-              CustomListTile(Icons.logout, 'Logout', () => {}),
-              CustomListTile(Icons.contacts_rounded, 'Contact us', () => {})
+              CustomListTile(
+                  Icons.logout,
+                  'Logout',
+                  () =>
+                      {context.read<AuthenticationService>().signOutFromAll()}),
+              CustomListTile(Icons.help, 'Help!', () => {})
             ],
           ),
         ),
@@ -45,51 +51,58 @@ class HomeScreen extends StatelessWidget {
         body: GridView.count(
           crossAxisCount: 2,
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              color: Colors.grey[500],
-              child: Stack(
-                children: [
-                  Center(
-                    child: Icon(
-                      Icons.directions_car,
-                      size: 50,
-                      color: Colors.black,
+            InkWell(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                color: Colors.grey[500],
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Icon(
+                        Icons.directions_car,
+                        size: 50,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 130, left: 82),
-                    child: Text("LOL"),
-                  )
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 130, left: 82),
+                      child: Text("LOL"),
+                    )
+                  ],
+                ),
               ),
+              onTap: () {},
             ),
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              color: Colors.grey[500],
-              child: Stack(
-                children: [
-                  Center(
-                    child: Icon(
-                      Icons.face,
-                      size: 50,
-                      color: Colors.black,
+            InkWell(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                color: Colors.grey[500],
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Icon(
+                        Icons.face,
+                        size: 50,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 130, left: 82),
-                    child: Text("LOL"),
-                  )
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 130, left: 82),
+                      child: Text("LOL"),
+                    )
+                  ],
+                ),
               ),
+              onTap: () {},
             ),
           ],
         ));
   }
 }
 
+// ignore: must_be_immutable
 class CustomListTile extends StatelessWidget {
   IconData icon;
   String text;
