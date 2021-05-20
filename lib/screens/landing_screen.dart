@@ -39,9 +39,6 @@ class LandingScreen extends StatelessWidget {
                 ),
               ),
             ),
-            CustomListTile(Icons.person, 'profile', () => {}),
-            CustomListTile(Icons.notifications, 'Notification', () => {}),
-            CustomListTile(Icons.settings, 'Settings', () => {}),
             CustomListTile(Icons.logout, 'Logout',
                 () => {context.read<AuthenticationService>().signOutFromAll()}),
             CustomListTile(Icons.help, 'Help!', () => {})
