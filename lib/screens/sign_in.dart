@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lost_found_app/screens/home_screen.dart';
+import 'package:lost_found_app/screens/landing_screen.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_up.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class _SignInState extends State<SignIn> {
 
     // If user sign in is successful, then this will push to the HomeScreen()
     if (firebaseUser != null) {
-      return HomeScreen();
+      return LandingScreen();
     }
 
     // If user is not signed in then this sign in page will be displayed
