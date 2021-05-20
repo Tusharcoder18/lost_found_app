@@ -26,6 +26,11 @@ get darkTheme => ThemeData(
           fontFamily: 'OpenSans',
           fontSize: 11,
         ),
+        headline3: TextStyle(
+          color: Colors.white,
+          fontFamily: 'OpenSans',
+          fontSize: 30,
+        ),
         bodyText1: TextStyle(
           color: Colors.white,
           fontFamily: 'OpenSans',
