@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
+import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        Provider<UploadService>(
+          create: (_) => UploadService(),
         ),
         StreamProvider<User>(
           create: (context) =>
