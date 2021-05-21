@@ -19,7 +19,7 @@ class LandingScreen extends StatelessWidget {
             DrawerHeader(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: <Color>[Colors.grey, Colors.grey[600]])),
+                      colors: <Color>[Colors.black, Colors.white])),
               child: Container(
                 child: Column(
                   children: [
@@ -70,7 +70,7 @@ class LandingScreen extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Categories()));
                 },
-                color: Colors.grey[500],
+                color: Colors.white,
                 child: Center(
                   child: Text(
                     "FOUND",

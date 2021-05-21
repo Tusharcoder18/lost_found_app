@@ -32,7 +32,7 @@ class CustomCards extends StatelessWidget {
     return InkWell(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Colors.grey[500],
+        color: Colors.white,
         child: Stack(
           children: [
             Center(
