@@ -70,7 +70,7 @@ class LandingScreen extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Categories()));
                 },
-                color: Colors.grey[500],
+                color: Colors.white,
                 child: Center(
                   child: Text(
                     "FOUND",

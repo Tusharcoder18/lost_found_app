@@ -73,7 +73,7 @@ class UploadService {
         'email': _email ?? '',
         'phone': _phone ?? '',
         'description': _description ?? '',
-        'tags': _category ?? ['Others'],
+        'category': _category ?? ['Others'],
         'images': _imageUrls ?? [''],
       }).then((value) => print("Data pushed to firebase"));
     } catch (e) {
