@@ -32,7 +32,7 @@ get darkTheme => ThemeData(
           fontSize: 30,
         ),
         bodyText1: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontFamily: 'OpenSans',
           fontSize: 9,
         ),

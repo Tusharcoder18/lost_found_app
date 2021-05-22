@@ -69,7 +69,7 @@ class LandingScreen extends StatelessWidget {
                   child: MaterialButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UploadPage()));
+                      MaterialPageRoute(builder: (context) => Categories()));
                 },
                 color: Colors.white,
                 child: Center(
