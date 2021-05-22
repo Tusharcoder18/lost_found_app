@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:lost_found_app/screens/landing_screen.dart';
+
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_up.dart';
 import 'package:provider/provider.dart';

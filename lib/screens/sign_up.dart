@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:provider/provider.dart';
+
 import 'package:lost_found_app/screens/landing_screen.dart';
 
 /*
