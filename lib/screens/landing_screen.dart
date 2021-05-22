@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/screens/categories.dart';
+import 'package:lost_found_app/screens/uploadPage.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,7 @@ class LandingScreen extends StatelessWidget {
                   child: MaterialButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Categories()));
+                      MaterialPageRoute(builder: (context) => UploadPage()));
                 },
                 color: Colors.white,
                 child: Center(
