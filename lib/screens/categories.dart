@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/screens/sign_out.dart';
+import 'package:lost_found_app/screens/uploadPage.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +66,7 @@ class Categories extends StatelessWidget {
                   context.read<UploadService>().setCategory(_category[index]);
                   print(_category[index]);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignOut()));
+                      MaterialPageRoute(builder: (context) => UploadPage()));
                 },
               );
             },
@@ -73,42 +74,3 @@ class Categories extends StatelessWidget {
         ));
   }
 }
-<<<<<<< HEAD
-
-// ignore: must_be_immutable
-class CustomCards extends StatelessWidget {
-  IconData icon;
-  String text;
-  Function onTap;
-  CustomCards(this.icon, this.text, this.onTap);
-
-  @override
-  Widget build(BuildContext context) {
-    // ignore: todo
-    // TODO: implement build
-    return InkWell(
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Colors.white,
-        child: Stack(
-          children: [
-            Center(
-              child: Icon(
-                icon,
-                size: 50,
-                color: Colors.black,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 130, left: 82),
-              child: Text(text),
-            )
-          ],
-        ),
-      ),
-      onTap: onTap,
-    );
-  }
-}
-=======
->>>>>>> 8620f38a1c27de3ad17e8fac4ef49c1bcb5df1c5
