@@ -17,7 +17,7 @@ class UploadService {
   String _email;
   String _phone;
   String _description;
-  List<String> _tags;
+  String _category;
   List<String> _imageUrls;
 
   final Reference _storageReference =
@@ -44,8 +44,8 @@ class UploadService {
   }
 
   // Setters
-  void setTags(List<String> tags) {
-    _tags = tags;
+  void setCategory(String category) {
+    _category = category;
   }
 
   void setName(String name) {
@@ -79,7 +79,7 @@ class UploadService {
         'email': _email ?? '',
         'phone': _phone ?? '',
         'description': _description ?? '',
-        'tags': _tags ?? ['Others'],
+        'category': _category ?? ['Others'],
         'images': _imageUrls ?? [''],
       }).then((value) => print("Data pushed to firebase"));
     } catch (e) {
