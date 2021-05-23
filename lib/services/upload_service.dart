@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'dart:io';
-
-import 'package:image_picker_platform_interface/src/types/picked_file/unsupported.dart';
 
 /*
 This service class is used to provide upload services to the app.
@@ -18,7 +15,7 @@ class UploadService {
   String _phone;
   String _description;
   List<String> _tags;
-  List<String> _imageUrls;
+  List<String> _imageUrls = [];
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
@@ -28,9 +25,6 @@ class UploadService {
   // for future use
   Future<void> uploadImage({File image, String name}) async {
     try {
-      if (image == null) {
-        print("fuck police");
-      }
       String _imageUrl;
       UploadTask uploadTask = _storageReference
           .child(name)
@@ -75,13 +69,13 @@ class UploadService {
   Future<void> uploadInfo() async {
     try {
       _firestoreReference.collection("info").add({
-        'name': _name ?? '',
+        'name': _name ?? 'test',
         'email': _email ?? '',
         'phone': _phone ?? '',
         'description': _description ?? '',
         'tags': _tags ?? ['Others'],
         'images': _imageUrls ?? [''],
-      }).then((value) => print("Data pushed to firebase"));
+      }).then((value) => print("Data pushed to firebase $value"));
     } catch (e) {
       print(e);
     }
