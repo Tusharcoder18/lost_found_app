@@ -26,7 +26,10 @@ class _UploadPageState extends State<UploadPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        elevation: 50,
+        onPressed: () {
+          uploader.uploadInfo();
+        },
         child: Icon(
           Icons.done_rounded,
           color: Colors.white,
@@ -98,14 +101,35 @@ class _UploadPageState extends State<UploadPage> {
                 Container(
                   margin: EdgeInsets.all(10),
                   padding: EdgeInsets.all(5),
-                  color: Colors.red,
+                  // color: Colors.red,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.red),
                   child: FormBuilder(
                     key: _formKey,
-                    child: Column(
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         FormBuilderTextField(
                           name: 'ItemTitle',
-                          decoration: InputDecoration(labelText: 'Title'),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: new OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              borderSide: new BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                borderSide: BorderSide(color: Colors.white)),
+                            // hintText: 'Enter Title',
+                            labelText: 'Title',
+                            isDense: true,
+                          ),
                           onChanged: (value) {
                             uploader.setName(value);
                           },
@@ -118,7 +142,21 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                         FormBuilderTextField(
                           name: 'ItemTitle',
-                          decoration: InputDecoration(labelText: 'Description'),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: new OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              borderSide: new BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                borderSide: BorderSide(color: Colors.white)),
+                            // hintText: 'Enter Title',
+                            labelText: 'Description',
+                            isDense: true,
+                          ),
                           onChanged: (value) {
                             uploader.setDescription(value);
                           },
@@ -131,7 +169,21 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                         FormBuilderTextField(
                           name: 'ItemTitle',
-                          decoration: InputDecoration(labelText: 'Found On'),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: new OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              borderSide: new BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                borderSide: BorderSide(color: Colors.white)),
+                            // hintText: 'Enter Title',
+                            labelText: 'Found On',
+                            isDense: true,
+                          ),
                           onChanged: (value) {
                             uploader.setPhone(value);
                           },
@@ -144,7 +196,21 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                         FormBuilderTextField(
                           name: 'ItemTitle',
-                          decoration: InputDecoration(labelText: 'Location'),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: new OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              borderSide: new BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                borderSide: BorderSide(color: Colors.white)),
+                            // hintText: 'Enter Title',
+                            labelText: 'Location',
+                            isDense: true,
+                          ),
                           onChanged: (value) {
                             uploader.setEmail(value);
                           },
@@ -154,18 +220,6 @@ class _UploadPageState extends State<UploadPage> {
                             FormBuilderValidators.max(context, 70),
                           ]),
                           keyboardType: TextInputType.streetAddress,
-                        ),
-                        Center(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.amber),
-                            ),
-                            child: Text('Submit'),
-                            onPressed: () {
-                              uploader.uploadInfo();
-                            },
-                          ),
                         )
                       ],
                     ),
