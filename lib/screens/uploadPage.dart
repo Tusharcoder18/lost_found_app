@@ -190,6 +190,7 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
+  // ignore: missing_return
   Container viewImages() {
     for (int i = 0; i <= imageCount; i++) {
       return Container(
