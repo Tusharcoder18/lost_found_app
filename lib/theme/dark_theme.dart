@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 get darkTheme => ThemeData(
+      hintColor: Colors.yellow,
       primarySwatch: Colors.grey,
       appBarTheme: AppBarTheme(
         brightness: Brightness.dark,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lost_found_app/screens/uploadPage2.dart';
+import 'package:lost_found_app/screens/uploadPage.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 

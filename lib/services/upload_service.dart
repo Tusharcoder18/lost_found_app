@@ -15,7 +15,7 @@ class UploadService {
   String _phone;
   String _description;
   List<String> _tags;
-  List<String> _imageUrls;
+  List<String> _imageUrls = [];
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
@@ -69,13 +69,13 @@ class UploadService {
   Future<void> uploadInfo() async {
     try {
       _firestoreReference.collection("info").add({
-        'name': _name ?? '',
+        'name': _name ?? 'test',
         'email': _email ?? '',
         'phone': _phone ?? '',
         'description': _description ?? '',
         'tags': _tags ?? ['Others'],
         'images': _imageUrls ?? [''],
-      }).then((value) => print("Data pushed to firebase"));
+      }).then((value) => print("Data pushed to firebase $value"));
     } catch (e) {
       print(e);
     }
