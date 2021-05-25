@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/screens/categories.dart';
 import 'package:lost_found_app/screens/uploadPage.dart';
@@ -11,6 +12,8 @@ Landing screen provides the user with two options for further navigation.
 2) FOUND - guides the user to register a lost object
 */
 class LandingScreen extends StatelessWidget {
+  LandingScreen(User firebaseUser);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
