@@ -76,22 +76,59 @@ class _UploadPageState extends State<UploadPage> {
                           child: Text('Click to add image'),
                         ),
                       )
-                    : CarouselSlider(
-                        options:
-                            CarouselOptions(scrollDirection: Axis.horizontal),
-                        items: file
-                            .map(
-                              (item) => Container(
-                                child: Image.file(
-                                  File(item.path),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            )
-                            .toList(),
+                    : GridView(
+                        scrollDirection: Axis.horizontal,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1),
+                        children: [
+                          CarouselSlider(
+                            options: CarouselOptions(
+                                scrollDirection: Axis.horizontal,
+                                enableInfiniteScroll: false),
+                            items: file
+                                .map(
+                                  (item) => Container(
+                                    child: Image.file(
+                                      File(item.path),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  final pickedFile = await _picker.getImage(
+                                    source: ImageSource.gallery,
+                                    imageQuality: 100,
+                                  );
+                                  uploader.uploadImage(
+                                      image: File(pickedFile.path),
+                                      name: "file" +
+                                          rng.nextInt(1002130213).toString());
+                                  setState(() {
+                                    // file[imageCount] = pickedFile; This is only valid if the length is specified in the list declaration
+                                    file.add(pickedFile);
+                                    print("ImageCount: $imageCount");
+                                    imageCount++;
+                                    print("ImageCount: $imageCount");
+                                  });
+                                } catch (e) {
+                                  setState(() {
+                                    print(e);
+                                  });
+                                }
+                              },
+                              child: Text('Click to add image'),
+                            ),
+                          )
+                        ],
                       ),
               ),
-              childCount: file == null ? 1 : (file.length + 1),
+              childCount: 1,
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
