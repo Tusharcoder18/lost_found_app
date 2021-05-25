@@ -14,7 +14,7 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> {
-  List<PickedFile> file = List<PickedFile>();
+  List<PickedFile> file = [];
   int imageCount = 0, index = 0;
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
@@ -61,7 +61,8 @@ class _UploadPageState extends State<UploadPage> {
                                   name: "file" +
                                       rng.nextInt(1002130213).toString());
                               setState(() {
-                                file[imageCount] = pickedFile;
+                                // file[imageCount] = pickedFile; This is only valid if the length is specified in the list declaration
+                                file.add(pickedFile);
                                 print("ImageCount: $imageCount");
                                 imageCount++;
                                 print("ImageCount: $imageCount");
@@ -76,17 +77,19 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                       )
                     : CarouselSlider(
-                        options: CarouselOptions(),
+                        options:
+                            CarouselOptions(scrollDirection: Axis.horizontal),
                         items: file
                             .map(
                               (item) => Container(
                                 child: Image.file(
                                   File(item.path),
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             )
-                            .toList()),
+                            .toList(),
+                      ),
               ),
               childCount: file == null ? 1 : (file.length + 1),
             ),

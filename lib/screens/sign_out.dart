@@ -1,13 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/screens/upload_images.dart';
+import 'package:lost_found_app/screens/userTags.dart';
 import 'package:lost_found_app/screens/uploadPage.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
-/*
-Sign out the user signed in using all the available methods.
-And redirect to the default sign in screen.
-*/
-class SignOut extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
+  User _user;
+  HomeScreen(this._user);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
