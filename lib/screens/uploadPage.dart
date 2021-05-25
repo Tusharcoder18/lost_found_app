@@ -77,21 +77,20 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                       )
                     : CarouselSlider(
-                        options:
-                            CarouselOptions(scrollDirection: Axis.horizontal),
-                        items: file
-                            .map(
-                              (item) => Container(
-                                child: Image.file(
-                                  File(item.path),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            )
-                            .toList(),
+                        options: CarouselOptions(
+                            scrollDirection: Axis.horizontal,
+                            enableInfiniteScroll: false),
+                        items: List.generate(file.length, (index) {
+                          return Container(
+                            child: Image.file(
+                              File(file[index].path),
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }),
                       ),
               ),
-              childCount: file == null ? 1 : (file.length + 1),
+              childCount: 1,
             ),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
