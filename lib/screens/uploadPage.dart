@@ -5,8 +5,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lost_found_app/Models/place_json.dart';
+import 'package:lost_found_app/services/getLocation.dart';
 import 'package:lost_found_app/services/upload_service.dart';
-import 'package:provider/provider.dart';
+
+import 'Location.dart';
 
 class UploadPage extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> {
+  final _controller = TextEditingController();
   List<PickedFile> file = [];
   int imageCount = 0, index = 0;
   final _formKey = GlobalKey<FormState>();
@@ -25,23 +29,43 @@ class _UploadPageState extends State<UploadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        elevation: 50,
-        onPressed: () {
-          uploader.uploadInfo();
-        },
-        child: Icon(
-          Icons.done_rounded,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.black,
-      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: Text("Tell us more !"),
             expandedHeight: 50,
             floating: true,
+            actions: [
+              imageCount != 0
+                  ? ElevatedButton.icon(
+                      icon: Icon(
+                        Icons.add_a_photo,
+                      ),
+                      onPressed: () async {
+                        try {
+                          final pickedFile = await _picker.getImage(
+                            source: ImageSource.gallery,
+                            imageQuality: 100,
+                          );
+                          uploader.uploadImage(
+                              image: File(pickedFile.path),
+                              title:
+                                  "file" + rng.nextInt(1002130213).toString());
+                          setState(() {
+                            // file[imageCount] = pickedFile; This is only valid if the length is specified in the list declaration
+                            file.add(pickedFile);
+                            print("ImageCount: $imageCount");
+                            imageCount++;
+                            print("ImageCount: $imageCount");
+                          });
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                      label: Text('Add Image'),
+                    )
+                  : SizedBox(),
+            ],
           ),
           SliverGrid(
             delegate: SliverChildBuilderDelegate(
@@ -58,7 +82,7 @@ class _UploadPageState extends State<UploadPage> {
                               );
                               uploader.uploadImage(
                                   image: File(pickedFile.path),
-                                  name: "file" +
+                                  title: "file" +
                                       rng.nextInt(1002130213).toString());
                               setState(() {
                                 // file[imageCount] = pickedFile; This is only valid if the length is specified in the list declaration
@@ -83,48 +107,22 @@ class _UploadPageState extends State<UploadPage> {
                         children: [
                           CarouselSlider(
                             options: CarouselOptions(
+                                aspectRatio: 1,
                                 scrollDirection: Axis.horizontal,
                                 enableInfiniteScroll: false),
                             items: file
                                 .map(
                                   (item) => Container(
+                                    // padding: EdgeInsets.all(15),
+                                    color: Colors.transparent,
                                     child: Image.file(
                                       File(item.path),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.scaleDown,
                                     ),
                                   ),
                                 )
                                 .toList(),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                try {
-                                  final pickedFile = await _picker.getImage(
-                                    source: ImageSource.gallery,
-                                    imageQuality: 100,
-                                  );
-                                  uploader.uploadImage(
-                                      image: File(pickedFile.path),
-                                      name: "file" +
-                                          rng.nextInt(1002130213).toString());
-                                  setState(() {
-                                    // file[imageCount] = pickedFile; This is only valid if the length is specified in the list declaration
-                                    file.add(pickedFile);
-                                    print("ImageCount: $imageCount");
-                                    imageCount++;
-                                    print("ImageCount: $imageCount");
-                                  });
-                                } catch (e) {
-                                  setState(() {
-                                    print(e);
-                                  });
-                                }
-                              },
-                              child: Text('Click to add image'),
-                            ),
-                          )
                         ],
                       ),
               ),
@@ -144,7 +142,7 @@ class _UploadPageState extends State<UploadPage> {
                   // color: Colors.red,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.red),
+                      color: Colors.black87),
                   child: FormBuilder(
                     key: _formKey,
                     child: Wrap(
@@ -171,7 +169,7 @@ class _UploadPageState extends State<UploadPage> {
                             isDense: true,
                           ),
                           onChanged: (value) {
-                            uploader.setName(value);
+                            uploader.setTitle(value);
                           },
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(context),
@@ -181,7 +179,7 @@ class _UploadPageState extends State<UploadPage> {
                           keyboardType: TextInputType.name,
                         ),
                         FormBuilderTextField(
-                          name: 'ItemTitle',
+                          name: 'Description',
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.white),
                             border: new OutlineInputBorder(
@@ -208,7 +206,7 @@ class _UploadPageState extends State<UploadPage> {
                           keyboardType: TextInputType.multiline,
                         ),
                         FormBuilderTextField(
-                          name: 'ItemTitle',
+                          name: 'Date',
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.white),
                             border: new OutlineInputBorder(
@@ -225,7 +223,7 @@ class _UploadPageState extends State<UploadPage> {
                             isDense: true,
                           ),
                           onChanged: (value) {
-                            uploader.setPhone(value);
+                            uploader.setDate(DateTime.now());
                           },
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(context),
@@ -236,6 +234,7 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                         FormBuilderTextField(
                           name: 'ItemTitle',
+                          controller: _controller,
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.white),
                             border: new OutlineInputBorder(
@@ -249,8 +248,26 @@ class _UploadPageState extends State<UploadPage> {
                                 borderSide: BorderSide(color: Colors.white)),
                             // hintText: 'Enter Title',
                             labelText: 'Location',
+
                             isDense: true,
                           ),
+                          readOnly: true,
+                          onTap: () async {
+                            final sessionToken = '21jd988asdhaksjdh';
+                            final Suggestion result = await showSearch(
+                              context: context,
+                              delegate: AddressSearch(sessionToken),
+                            );
+                            // This will change the text displayed in the TextField
+                            if (result != null) {
+                              final placeDetails =
+                                  await PlaceApiProvider(sessionToken)
+                                      .getPlaceDetailFromId(result.placeId);
+                              setState(() {
+                                _controller.text = result.description;
+                              });
+                            }
+                          },
                           onChanged: (value) {
                             uploader.setEmail(value);
                           },
@@ -260,8 +277,25 @@ class _UploadPageState extends State<UploadPage> {
                             FormBuilderValidators.max(context, 70),
                           ]),
                           keyboardType: TextInputType.streetAddress,
-                        )
+                        ),
                       ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        minimumSize:
+                            MaterialStateProperty.all<Size>(Size(180, 45)),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black)),
+                    onPressed: () {
+                      uploader.uploadInfo();
+                    },
+                    child: Icon(
+                      Icons.done_rounded,
+                      size: 35,
+                      color: Colors.white,
                     ),
                   ),
                 ),
