@@ -13,38 +13,6 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: <Color>[Colors.grey, Colors.grey[600]])),
-              child: Container(
-                child: Column(
-                  children: [
-                    Material(
-                      elevation: 10,
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          'assets/hoob.png',
-                          width: 100,
-                          height: 100,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            CustomListTile(Icons.logout, 'Logout',
-                () => {context.read<AuthenticationService>().signOutFromAll()}),
-            CustomListTile(Icons.help, 'Help!', () => {})
-          ],
-        ),
-      ),
       appBar: AppBar(),
       body: SafeArea(
         child: Container(

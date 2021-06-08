@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/screens/sign_out.dart';
+import 'package:lost_found_app/screens/upload_form.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,15 @@ class Categories extends StatelessWidget {
     Icons.account_balance_wallet,
     Icons.account_box,
     Icons.add_a_photo,
+    Icons.label_outline_sharp,
   ];
   final List<String> _category = [
     "Smartphone",
     "Watch",
     "Wallet",
     "ID Card",
-    "Camera"
+    "Camera",
+    "Others",
   ];
 
   @override
@@ -61,11 +64,11 @@ class Categories extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  // Store the selected category in the Service class
+                  // Store the selected category in the Upload Service class
                   context.read<UploadService>().setCategory(_category[index]);
                   print(_category[index]);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignOut()));
+                      MaterialPageRoute(builder: (context) => UploadForm()));
                 },
               );
             },

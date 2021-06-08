@@ -15,23 +15,28 @@ class UploadService {
   String _phone;
   String _description;
   String _category;
-  List<String> _imageUrls;
+  List<String> _imageUrls = [];
+  List<File> _images = [];
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
   final FirebaseFirestore _firestoreReference = FirebaseFirestore.instance;
 
-  // Uploads the selected file to the Firebase Storage and stores the imageurl
+  // Uploads multiple images to the Firebase Storage and stores the imageurls
   // for future use
-  Future<void> uploadImage({File image, String name}) async {
+  Future<void> uploadImages() async {
     try {
-      String _imageUrl;
-      UploadTask uploadTask = _storageReference
-          .child(name)
-          .putFile(image, SettableMetadata(contentType: "image/jpeg"));
-      TaskSnapshot imageSnapshot = (await uploadTask);
-      _imageUrl = (await imageSnapshot.ref.getDownloadURL());
-      _imageUrls.add(_imageUrl);
+      for (int i = 0; i < _images.length; i++) {
+        File image = _images[i];
+        String name = _name + i.toString();
+        String _imageUrl;
+        UploadTask uploadTask = _storageReference
+            .child(name)
+            .putFile(image, SettableMetadata(contentType: "image/jpeg"));
+        TaskSnapshot imageSnapshot = (await uploadTask);
+        _imageUrl = (await imageSnapshot.ref.getDownloadURL());
+        _imageUrls.add(_imageUrl);
+      }
     } catch (e) {
       print(e);
     }
@@ -58,7 +63,18 @@ class UploadService {
     _description = description;
   }
 
+  void setImages(File image) {
+    _images.add(image);
+  }
+
   // Please add the getters here in case needed
+  String getName() {
+    return _name;
+  }
+
+  List<File> getImages() {
+    return _images;
+  }
 
   /*
   Uploads the important information of the uploader and the lost object
@@ -68,6 +84,7 @@ class UploadService {
   */
   Future<void> uploadInfo() async {
     try {
+      print(_imageUrls);
       _firestoreReference.collection("info").add({
         'name': _name ?? '',
         'email': _email ?? '',
