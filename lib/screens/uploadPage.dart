@@ -165,7 +165,7 @@ class _UploadPageState extends State<UploadPage> {
                                     BorderRadius.all(Radius.circular(25)),
                                 borderSide: BorderSide(color: Colors.white)),
                             // hintText: 'Enter Title',
-                            labelText: 'Title',
+                            labelText: 'Item',
                             isDense: true,
                           ),
                           onChanged: (value) {
@@ -286,7 +286,7 @@ class _UploadPageState extends State<UploadPage> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         minimumSize:
-                            MaterialStateProperty.all<Size>(Size(180, 45)),
+                            MaterialStateProperty.all<Size>(Size(20, 45)),
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.black)),
                     onPressed: () {
