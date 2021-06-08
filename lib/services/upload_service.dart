@@ -10,10 +10,11 @@ also uploading the info about the uploader and the lost object.
 */
 
 class UploadService {
-  String _name;
+  String _title;
   String _email;
   String _phone;
   String _description;
+  DateTime _dateTime;
   List<String> _tags;
   List<String> _imageUrls = [];
 
@@ -23,11 +24,11 @@ class UploadService {
 
   // Uploads the selected file to the Firebase Storage and stores the imageurl
   // for future use
-  Future<void> uploadImage({File image, String name}) async {
+  Future<void> uploadImage({File image, String title}) async {
     try {
       String _imageUrl;
       UploadTask uploadTask = _storageReference
-          .child(name)
+          .child(title)
           .putFile(image, SettableMetadata(contentType: "image/jpeg"));
       TaskSnapshot imageSnapshot = (await uploadTask);
       _imageUrl = (await imageSnapshot.ref.getDownloadURL());
@@ -42,8 +43,8 @@ class UploadService {
     _tags = tags;
   }
 
-  void setName(String name) {
-    _name = name;
+  void setTitle(String title) {
+    _title = title;
   }
 
   void setEmail(String email) {
@@ -52,6 +53,10 @@ class UploadService {
 
   void setPhone(String phone) {
     _phone = phone;
+  }
+
+  void setDate(DateTime dateTime) {
+    _dateTime = dateTime;
   }
 
   void setDescription(String description) {
@@ -69,9 +74,10 @@ class UploadService {
   Future<void> uploadInfo() async {
     try {
       _firestoreReference.collection("info").add({
-        'name': _name ?? 'test',
+        'title': _title ?? '',
         'email': _email ?? '',
         'phone': _phone ?? '',
+        'date': _dateTime ?? '',
         'description': _description ?? '',
         'tags': _tags ?? ['Others'],
         'images': _imageUrls ?? [''],
