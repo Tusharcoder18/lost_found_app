@@ -18,14 +18,10 @@ class HomeScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () {
-              context.read<AuthenticationService>().signOutFromAll();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UploadPage()),
               );
-
-              Navigator.popUntil(
-                  context, ModalRoute.withName(Navigator.defaultRouteName));
             },
             child: Text("UploadPage"),
           ),

@@ -46,6 +46,7 @@ class _SearchResultsState extends State<SearchResults> {
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
+                                  builder: (BuildContext context) {}
                                   // builder: (context) => ItemDetails()
                                   )),
                           child: Container(
