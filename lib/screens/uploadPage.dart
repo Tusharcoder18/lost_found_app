@@ -313,7 +313,7 @@ class _UploadPageState extends State<UploadPage> {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
             PlacePicker("AIzaSyCgOkOxIFcTKKSa67wQ4YNHONqYzLgyP7E")));
-    print(result.toString());
+    print(result.latLng);
     return result.latLng;
   }
 }
