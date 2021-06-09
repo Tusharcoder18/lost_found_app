@@ -5,11 +5,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lost_found_app/Models/place_json.dart';
-import 'package:lost_found_app/services/getLocation.dart';
 import 'package:lost_found_app/services/upload_service.dart';
-
-import 'Location.dart';
+import 'package:place_picker/entities/location_result.dart';
+import 'package:place_picker/widgets/place_picker.dart';
 
 class UploadPage extends StatefulWidget {
   @override
@@ -253,20 +251,23 @@ class _UploadPageState extends State<UploadPage> {
                           ),
                           readOnly: true,
                           onTap: () async {
-                            final sessionToken = '21jd988asdhaksjdh';
-                            final Suggestion result = await showSearch(
-                              context: context,
-                              delegate: AddressSearch(sessionToken),
-                            );
-                            // This will change the text displayed in the TextField
-                            if (result != null) {
-                              final placeDetails =
-                                  await PlaceApiProvider(sessionToken)
-                                      .getPlaceDetailFromId(result.placeId);
-                              setState(() {
-                                _controller.text = result.description;
-                              });
-                            }
+                            // final sessionToken =
+                            //     '21jd988asdhaksjdh'; //uuid().v4() was used in tut..
+                            // //ref: https://medium.com/comerge/location-search-autocomplete-in-flutter-84f155d44721
+                            // final Suggestion result = await showSearch(
+                            //   context: context,
+                            //   delegate: AddressSearch(sessionToken),
+                            // );
+                            // // This will change the text displayed in the TextField
+                            // if (result != null) {
+                            //   final placeDetails =
+                            //       await PlaceApiProvider(sessionToken)
+                            //           .getPlaceDetailFromId(result.placeId);
+                            //   setState(() {
+                            //     _controller.text = result.description;
+                            //   });
+                            // }
+                            _controller.text = showPlacePicker().toString();
                           },
                           onChanged: (value) {
                             uploader.setEmail(value);
@@ -305,5 +306,12 @@ class _UploadPageState extends State<UploadPage> {
         ],
       ),
     );
+  }
+
+  Future<LocationResult> showPlacePicker() async {
+    LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            PlacePicker("AIzaSyCKKiUBBpxzi89QCFQSdo23CMhvU1f8BMs")));
+    return result;
   }
 }
