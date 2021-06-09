@@ -7,6 +7,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:place_picker/entities/location_result.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:place_picker/widgets/place_picker.dart';
 
 class UploadPage extends StatefulWidget {
@@ -308,10 +309,11 @@ class _UploadPageState extends State<UploadPage> {
     );
   }
 
-  Future<LocationResult> showPlacePicker() async {
+  Future<LatLng> showPlacePicker() async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
-            PlacePicker("AIzaSyCKKiUBBpxzi89QCFQSdo23CMhvU1f8BMs")));
-    return result;
+            PlacePicker("AIzaSyCgOkOxIFcTKKSa67wQ4YNHONqYzLgyP7E")));
+    print(result.toString());
+    return result.latLng;
   }
 }
