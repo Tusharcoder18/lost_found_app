@@ -72,6 +72,14 @@ class UploadService {
     return _name;
   }
 
+  String getDescription() {
+    return _description;
+  }
+
+  String getCategory() {
+    return _category;
+  }
+
   List<File> getImages() {
     return _images;
   }

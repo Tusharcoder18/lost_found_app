@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lost_found_app/screens/post.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:provider/provider.dart';
 
@@ -30,8 +31,10 @@ class _UploadFormState extends State<UploadForm> {
           if (_formKey.currentState.validate()) {
             // If the form validates successfully then upload the images and the
             // info of the post
-            await context.read<UploadService>().uploadImages();
-            await context.read<UploadService>().uploadInfo();
+            // await context.read<UploadService>().uploadImages();
+            // await context.read<UploadService>().uploadInfo();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Post()));
           } else {
             // If the form doesn't validate then show a snackbar with the
             // required message

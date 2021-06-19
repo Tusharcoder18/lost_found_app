@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/screens/categories.dart';
-import 'package:lost_found_app/services/authentication_service.dart';
-import 'package:provider/provider.dart';
 
 /*
 Successfully authenticated users will be redirected to the Landing screen. 

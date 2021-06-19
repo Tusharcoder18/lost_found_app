@@ -13,8 +13,10 @@ get darkTheme => ThemeData(
       brightness: Brightness.dark,
       canvasColor: Colors.black45,
       accentColor: Colors.cyanAccent,
+      cardColor: Color(0xff1c1c1c),
       accentIconTheme: IconThemeData(color: Colors.white),
       fontFamily: 'OpenSans',
+      buttonColor: Colors.white,
       textTheme: TextTheme(
         headline1: TextStyle(
           color: Colors.white,

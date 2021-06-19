@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lost_found_app/screens/sign_out.dart';
 import 'package:lost_found_app/screens/upload_form.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:provider/provider.dart';
