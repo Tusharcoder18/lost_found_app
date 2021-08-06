@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lost_found_app/screens/Details.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:place_picker/entities/location_result.dart';
 import 'package:place_picker/place_picker.dart';
@@ -208,19 +209,20 @@ class _UploadPageState extends State<UploadPage> {
                           name: 'Date',
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.white),
-                            border: new OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(25)),
-                              borderSide: new BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(25)),
                                 borderSide: BorderSide(color: Colors.white)),
                             // hintText: 'Enter Title',
-                            labelText: 'Found On',
+                            labelText: 'Date',
                             isDense: true,
                           ),
+                          onTap: () {},
                           onChanged: (value) {
                             uploader.setDate(DateTime.now());
                           },
@@ -229,7 +231,7 @@ class _UploadPageState extends State<UploadPage> {
                             FormBuilderValidators.numeric(context),
                             FormBuilderValidators.max(context, 70),
                           ]),
-                          keyboardType: TextInputType.datetime,
+                          keyboardType: ElevatedButton(),
                         ),
                         FormBuilderTextField(
                           name: 'ItemTitle',
@@ -286,20 +288,23 @@ class _UploadPageState extends State<UploadPage> {
                 ),
                 Center(
                   child: ElevatedButton(
-                    style: ButtonStyle(
-                        minimumSize:
-                            MaterialStateProperty.all<Size>(Size(20, 45)),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black)),
-                    onPressed: () {
-                      uploader.uploadInfo();
-                    },
-                    child: Icon(
-                      Icons.done_rounded,
-                      size: 35,
-                      color: Colors.white,
-                    ),
-                  ),
+                      style: ButtonStyle(
+                          minimumSize:
+                              MaterialStateProperty.all<Size>(Size(20, 45)),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black)),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Details()));
+                        //uploader.uploadInfo();
+                      },
+                      child: Text(
+                        "submit",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      )),
                 ),
               ],
             ),
@@ -315,5 +320,43 @@ class _UploadPageState extends State<UploadPage> {
             PlacePicker("AIzaSyCgOkOxIFcTKKSa67wQ4YNHONqYzLgyP7E")));
     print(result.latLng);
     return result.latLng;
+  }
+}
+
+class _Dial extends State<Dial> {
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String lol;
+    // TODO: implement build
+    return ElevatedButton(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("${selectedDate.toLocal()}".split(' ')[0]),
+              SizedBox(
+                height: 20.0,
+              ),
+            ],
+          ),
+        ),
+      ),
+      onPressed: () => _selectDate(context),
+    );
   }
 }
