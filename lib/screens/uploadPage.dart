@@ -231,7 +231,6 @@ class _UploadPageState extends State<UploadPage> {
                             FormBuilderValidators.numeric(context),
                             FormBuilderValidators.max(context, 70),
                           ]),
-                          keyboardType: ElevatedButton(),
                         ),
                         FormBuilderTextField(
                           name: 'ItemTitle',
