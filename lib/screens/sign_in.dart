@@ -59,15 +59,11 @@ class _SignInState extends State<SignIn> {
   // This widget contains the title of the app and the logo(if any)
   Widget _headerWidget() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Lost Found",
-          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 30),
-        ),
-        Container(
-          height: 70,
-          child: Icon(FontAwesomeIcons.search),
+          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 40),
         ),
       ],
     );
@@ -200,15 +196,6 @@ class _SignInState extends State<SignIn> {
               SizedBox(
                 height: 10,
               ),
-              CustomButton(
-                  text: "Sign-in using Facebook",
-                  icon: Icon(FontAwesomeIcons.facebook),
-                  color: Colors.blue,
-                  onTap: () {
-                    print(context
-                        .read<AuthenticationService>()
-                        .signInWithFacebook());
-                  }),
               SizedBox(
                 height: 10,
               ),
