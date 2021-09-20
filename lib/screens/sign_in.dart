@@ -199,18 +199,18 @@ class _SignInState extends State<SignIn> {
               SizedBox(
                 height: 10,
               ),
-              CustomButton(
-                  text: "Sign-in using Facebook",
-                  icon: Icon(FontAwesomeIcons.facebook),
-                  color: Colors.blue,
-                  onTap: () {
-                    print(context
-                        .read<AuthenticationService>()
-                        .signInWithFacebook());
-                  }),
-              SizedBox(
-                height: 10,
-              ),
+              // CustomButton(
+              //     text: "Sign-in using Facebook",
+              //     icon: Icon(FontAwesomeIcons.facebook),
+              //     color: Colors.blue,
+              //     onTap: () {
+              //       print(context
+              //           .read<AuthenticationService>()
+              //           .signInWithFacebook());
+              //     }),
+              // SizedBox(
+              //   height: 10,
+              // ),
               Text(
                 "Need Help?",
                 style: Theme.of(context).textTheme.headline2,

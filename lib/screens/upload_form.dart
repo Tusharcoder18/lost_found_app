@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lost_found_app/screens/post.dart';
 import 'package:lost_found_app/services/upload_service.dart';
+import 'package:lost_found_app/widgets/form_decorator.dart';
 import 'package:provider/provider.dart';
 
 class UploadForm extends StatefulWidget {
@@ -15,6 +16,7 @@ class UploadForm extends StatefulWidget {
 
 class _UploadFormState extends State<UploadForm> {
   List<PickedFile> images = [];
+  DateTime _dateTime;
   int imageCount = 0, index = 0;
   final _formKey = GlobalKey<FormBuilderState>();
   final ImagePicker _picker = ImagePicker();
@@ -22,6 +24,19 @@ class _UploadFormState extends State<UploadForm> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> _labels = [
+      "Title",
+      "Description",
+      "Found On(Date)",
+      "Location",
+    ];
+    final List<Function> _onChanged = [
+      (String value) => context.read<UploadService>().setName(value),
+      (String value) => context.read<UploadService>().setDescription(value),
+      (DateTime value) => context.read<UploadService>().setDate(value),
+      (String value) => context.read<UploadService>().setEmail(value),
+    ];
+
     return Scaffold(
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -155,100 +170,31 @@ class _UploadFormState extends State<UploadForm> {
                     child: Wrap(
                       spacing: 10,
                       runSpacing: 10,
-                      children: [
-                        FormBuilderTextField(
+                      children: List.generate(_labels.length, (index) {
+                        if (index == 2) {
+                          return FormBuilderDateTimePicker(
+                            name: 'date',
+                            inputType: InputType.date,
+                            initialDate: DateTime.now(),
+                            decoration: formDecorator('Found On(Date)'),
+                            enabled: true,
+                            onChanged: (date) {
+                              print(date.toString().split(" ")[0]);
+                              _onChanged[index](date);
+                            },
+                            validator: FormBuilderValidators.required(context),
+                          );
+                        }
+                        return FormBuilderTextField(
                           name: 'ItemTitle',
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: new OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              borderSide: new BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                borderSide: BorderSide(color: Colors.white)),
-                            // hintText: 'Enter Title',
-                            labelText: 'Title',
-                            isDense: true,
-                          ),
+                          decoration: formDecorator(_labels[index]),
                           onChanged: (value) {
-                            context.read<UploadService>().setName(value);
+                            _onChanged[index](value);
                           },
                           validator: FormBuilderValidators.required(context),
                           keyboardType: TextInputType.name,
-                        ),
-                        FormBuilderTextField(
-                          name: 'ItemTitle',
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: new OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              borderSide: new BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                borderSide: BorderSide(color: Colors.white)),
-                            // hintText: 'Enter Title',
-                            labelText: 'Description',
-                            isDense: true,
-                          ),
-                          onChanged: (value) {
-                            context.read<UploadService>().setDescription(value);
-                          },
-                          validator: FormBuilderValidators.required(context),
-                          keyboardType: TextInputType.multiline,
-                        ),
-                        FormBuilderTextField(
-                          name: 'ItemTitle',
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: new OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              borderSide: new BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                borderSide: BorderSide(color: Colors.white)),
-                            // hintText: 'Enter Title',
-                            labelText: 'Found On',
-                            isDense: true,
-                          ),
-                          onChanged: (value) {
-                            context.read<UploadService>().setPhone(value);
-                          },
-                          validator: FormBuilderValidators.required(context),
-                          keyboardType: TextInputType.datetime,
-                        ),
-                        FormBuilderTextField(
-                          name: 'ItemTitle',
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: new OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              borderSide: new BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                borderSide: BorderSide(color: Colors.white)),
-                            // hintText: 'Enter Title',
-                            labelText: 'Location',
-                            isDense: true,
-                          ),
-                          onChanged: (value) {
-                            context.read<UploadService>().setEmail(value);
-                          },
-                          validator: FormBuilderValidators.required(context),
-                          keyboardType: TextInputType.streetAddress,
-                        )
-                      ],
+                        );
+                      }),
                     ),
                   ),
                 ),

@@ -15,6 +15,7 @@ class UploadService {
   String _phone;
   String _description;
   String _category;
+  DateTime _date;
   List<String> _imageUrls = [];
   List<File> _images = [];
 
@@ -63,6 +64,10 @@ class UploadService {
     _description = description;
   }
 
+  void setDate(DateTime date) {
+    _date = date;
+  }
+
   void setImages(File image) {
     _images.add(image);
   }
@@ -100,6 +105,7 @@ class UploadService {
         'description': _description ?? '',
         'category': _category ?? ['Others'],
         'images': _imageUrls ?? [''],
+        'date': _date.toString().split(" ")[0],
       }).then((value) => print("Data pushed to firebase"));
     } catch (e) {
       print(e);
