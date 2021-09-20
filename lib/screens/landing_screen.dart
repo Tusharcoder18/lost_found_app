@@ -49,7 +49,6 @@ class LandingScreen extends StatelessWidget {
           ],
         ),
       ),
-      appBar: AppBar(),
       body: SafeArea(
         child: Container(
           child: Column(
