@@ -67,7 +67,7 @@ class Categories extends StatelessWidget {
                   context.read<UploadService>().setCategory(_category[index]);
                   print(_category[index]);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UploadForm()));
+                      MaterialPageRoute(builder: (context)=>UploadForm()));
                 },
               );
             },

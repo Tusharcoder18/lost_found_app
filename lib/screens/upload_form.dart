@@ -1,251 +1,208 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+import 'dart:math';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lost_found_app/services/authentication_service.dart';
-import 'package:lost_found_app/screens/sign_in.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lost_found_app/screens/post.dart';
+import 'package:lost_found_app/services/upload_service.dart';
+import 'package:lost_found_app/widgets/form_decorator.dart';
 import 'package:provider/provider.dart';
 
-import 'package:lost_found_app/screens/landing_screen.dart';
-
-/*
-The main purpose of this widget is to take user input required for sign up such
-as Phone No, password, etc. and use these details to sign up the user.
-*/
-class SignUp extends StatefulWidget {
+class UploadForm extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _UploadFormState createState() => _UploadFormState();
 }
 
-class _SignUpState extends State<SignUp> {
-  String _phone;
-  String _password;
-  String _confirmPassword;
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _UploadFormState extends State<UploadForm> {
+  List<PickedFile> images = [];
+  DateTime _dateTime;
+  int imageCount = 0, index = 0;
+  final _formKey = GlobalKey<FormBuilderState>();
+  final ImagePicker _picker = ImagePicker();
+  var rng = new Random();
 
   @override
   Widget build(BuildContext context) {
-    // This is for signUp
-    final firebaseUser = context.watch<User>();
+    final List<String> _labels = [
+      "Title",
+      "Description",
+      "Found On(Date)",
+      "Location",
+    ];
+    final List<Function> _onChanged = [
+      (String value) => context.read<UploadService>().setName(value),
+      (String value) => context.read<UploadService>().setDescription(value),
+      (DateTime value) => context.read<UploadService>().setDate(value),
+      (String value) => context.read<UploadService>().setEmail(value),
+    ];
 
-    // If user sign in is successful, then this will push to the HomeScreen()
-    if (firebaseUser != null) {
-      return LandingScreen();
-    }
-
-    // If user is not signed in then this sign in page will be displayed
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-        child: Column(
-          children: [
-            _headerWidget(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.18,
-            ),
-            _formWidget(),
-          ],
+      backgroundColor: Colors.black,
+      floatingActionButton: FloatingActionButton(
+        elevation: 50,
+        onPressed: () async {
+          _formKey.currentState.save();
+          if (_formKey.currentState.validate()) {
+            // If the form validates successfully then upload the images and the
+            // info of the post
+            // await context.read<UploadService>().uploadImages();
+            // await context.read<UploadService>().uploadInfo();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Post()));
+          } else {
+            // If the form doesn't validate then show a snackbar with the
+            // required message
+            SnackBar snackBar =
+                SnackBar(content: Text("Please fill the required details!"));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
+        child: Icon(
+          Icons.done_rounded,
+          color: Colors.white,
         ),
+        backgroundColor: Colors.black,
       ),
-    );
-  }
-
-  // This widget contains the title of the app and the logo(if any)
-  Widget _headerWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "Lost Found",
-          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 30),
-        ),
-        
-      ],
-    );
-  }
-
-  /*
-  This widget contains three form fields for user details
-  The user details used for user sign up are
-  1) Phone Number
-  2) Password
-  */
-  Widget _formWidget() {
-    return Form(
-      key: _formKey,
-      child: Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Phone Number form field
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                      border: InputBorder.none,
-                      labelText: "Phone Number"),
-                  // ignore: missing_return
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return "Phone Number is Required";
-                    }
-                  },
-                  onChanged: (String value) {
-                    _phone = value;
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              // Password form field
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                child: TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                      border: InputBorder.none,
-                      labelText: "Password"),
-                  // ignore: missing_return
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return "Password is Required";
-                    }
-                  },
-                  onChanged: (String value) {
-                    _password = value;
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              // Confirm password form field
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                child: TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                      border: InputBorder.none,
-                      labelText: "Confirm Password"),
-                  // ignore: missing_return
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return "Password is Required";
-                    } else if (_password != _confirmPassword) {
-                      return "Password did not match";
-                    }
-                  },
-                  onChanged: (String value) {
-                    _confirmPassword = value;
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-
-              // Sign up custom button
-              MaterialButton(
-                elevation: 0,
-                minWidth: double.maxFinite,
-                height: 50,
-                onPressed: () {
-                  if (_password == _confirmPassword) {
-                    print("password Confirmed");
-                    print(context.read<AuthenticationService>().signUp(
-                          email: _phone,
-                          password: _password,
-                        ));
-                  } else {
-                    print("password Not Confirmed");
-                  }
-
-                  if (!_formKey.currentState.validate()) {
-                    return;
-                  }
-                  _formKey.currentState.save();
-                  print(_phone);
-                  print(_password);
-                },
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey[600]),
-                    borderRadius: BorderRadius.circular(3)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Sign up',
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
-                  ],
-                ),
-                textColor: Colors.white,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Need Help?",
-                style: Theme.of(context).textTheme.headline2,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              GestureDetector(
-                child: Text(
-                  "Already a user? Sign in now.",
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignIn()));
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text("Tell us more !"),
+            expandedHeight: 50,
+            floating: true,
           ),
-        ),
+          SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Container(
+                child: (imageCount == 0)
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            try {
+                              final pickedFile = await _picker.getImage(
+                                source: ImageSource.gallery,
+                                imageQuality: 100,
+                              );
+                              setState(() {
+                                context
+                                    .read<UploadService>()
+                                    .setImages(File(pickedFile.path));
+                                images.add(pickedFile);
+                                print("ImageCount: $imageCount");
+                                imageCount++;
+                                print("ImageCount: $imageCount");
+                              });
+                            } catch (e) {
+                              setState(() {
+                                print(e);
+                              });
+                            }
+                          },
+                          child: Text('Click to add image'),
+                        ),
+                      )
+                    : ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          CarouselSlider(
+                            options: CarouselOptions(
+                                scrollDirection: Axis.horizontal,
+                                enableInfiniteScroll: false),
+                            items: images
+                                .map(
+                                  (item) => Image.file(
+                                    File(item.path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                try {
+                                  final pickedFile = await _picker.getImage(
+                                    source: ImageSource.gallery,
+                                    imageQuality: 100,
+                                  );
+                                  setState(() {
+                                    context
+                                        .read<UploadService>()
+                                        .setImages(File(pickedFile.path));
+                                    print("ImageCount: $imageCount");
+                                    imageCount++;
+                                    print("ImageCount: $imageCount");
+                                  });
+                                } catch (e) {
+                                  setState(() {
+                                    print(e);
+                                  });
+                                }
+                              },
+                              child: Text('Click to add image'),
+                            ),
+                          )
+                        ],
+                      ),
+              ),
+              childCount: 1,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              childAspectRatio: 1,
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(5),
+                  // color: Colors.red,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.red),
+                  child: FormBuilder(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.always,
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: List.generate(_labels.length, (index) {
+                        if (index == 2) {
+                          return FormBuilderDateTimePicker(
+                            name: 'date',
+                            inputType: InputType.date,
+                            initialDate: DateTime.now(),
+                            decoration: formDecorator('Found On(Date)'),
+                            enabled: true,
+                            onChanged: (date) {
+                              print(date.toString().split(" ")[0]);
+                              _onChanged[index](date);
+                            },
+                            validator: FormBuilderValidators.required(context),
+                          );
+                        }
+                        return FormBuilderTextField(
+                          name: 'ItemTitle',
+                          decoration: formDecorator(_labels[index]),
+                          onChanged: (value) {
+                            _onChanged[index](value);
+                          },
+                          validator: FormBuilderValidators.required(context),
+                          keyboardType: TextInputType.name,
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
-// Widget
 }
