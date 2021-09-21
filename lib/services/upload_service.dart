@@ -1,115 +1,254 @@
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lost_found_app/services/authentication_service.dart';
+import 'package:lost_found_app/screens/sign_in.dart';
+import 'package:provider/provider.dart';
 
-import 'dart:io';
+import 'package:lost_found_app/screens/landing_screen.dart';
 
 /*
-This service class is used to provide upload services to the app.
-The upload services mainly include uploading the images for lost objects and
-also uploading the info about the uploader and the lost object.
+The main purpose of this widget is to take user input required for sign up such
+as Phone No, password, etc. and use these details to sign up the user.
 */
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
 
-class UploadService {
-  String _title;
-  String _email;
+class _SignUpState extends State<SignUp> {
   String _phone;
-  String _description;
-  DateTime _dateTime;
-  List<String> _tags;
-  List<String> _imageUrls = [];
+  String _password;
+  String _confirmPassword;
 
-  final Reference _storageReference =
-      FirebaseStorage.instance.ref().child("images");
-  final FirebaseFirestore _firestoreReference = FirebaseFirestore.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // Uploads multiple images to the Firebase Storage and stores the imageurls
-  // for future use
-  Future<void> uploadImage({File image, String title}) async {
-    try {
-      String _imageUrl;
-      UploadTask uploadTask = _storageReference
-          .child(title)
-          .putFile(image, SettableMetadata(contentType: "image/jpeg"));
-      TaskSnapshot imageSnapshot = (await uploadTask);
-      _imageUrl = (await imageSnapshot.ref.getDownloadURL());
-      _imageUrls.add(_imageUrl);
-    } catch (e) {
-      print(e);
+  @override
+  Widget build(BuildContext context) {
+    // This is for signUp
+    final firebaseUser = context.watch<User>();
+
+    // If user sign in is successful, then this will push to the HomeScreen()
+    if (firebaseUser != null) {
+      return LandingScreen();
     }
+
+    // If user is not signed in then this sign in page will be displayed
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+        child: Column(
+          children: [
+            _headerWidget(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.18,
+            ),
+            _formWidget(),
+          ],
+        ),
+      ),
+    );
   }
 
-  // Setters
-  void setTags(List<String> tags) {
-    _tags = tags;
-  }
-
-  void setTitle(String title) {
-    _title = title;
-  }
-
-  void setEmail(String email) {
-    _email = email;
-  }
-
-  void setPhone(String phone) {
-    _phone = phone;
-  }
-
-  void setDate(DateTime dateTime) {
-    _dateTime = dateTime;
-  }
-
-  void setDescription(String description) {
-    _description = description;
-  }
-
-  void setDate(DateTime date) {
-    _date = date;
-  }
-
-  void setImages(File image) {
-    _images.add(image);
-  }
-
-  // Please add the getters here in case needed
-  String getName() {
-    return _name;
-  }
-
-  String getDescription() {
-    return _description;
-  }
-
-  String getCategory() {
-    return _category;
-  }
-
-  List<File> getImages() {
-    return _images;
+  // This widget contains the title of the app and the logo(if any)
+  Widget _headerWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Lost Found",
+          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 30),
+        ),
+        Container(
+          height: 70,
+          child: Icon(FontAwesomeIcons.search),
+        ),
+      ],
+    );
   }
 
   /*
-  Uploads the important information of the uploader and the lost object
-  to the Firebase Firestore
-  Note: Also uploads the image urls which is a list of multiple images of
-  the lost object
+  This widget contains three form fields for user details
+  The user details used for user sign up are
+  1) Phone Number
+  2) Password
   */
-  Future<void> uploadInfo() async {
-    try {
-      print(_imageUrls);
-      _firestoreReference.collection("info").add({
-        'title': _title ?? '',
-        'email': _email ?? '',
-        'phone': _phone ?? '',
-        'date': _dateTime ?? '',
-        'description': _description ?? '',
-        'tags': _tags ?? ['Others'],
-        'images': _imageUrls ?? [''],
-      }).then((value) => print("Data pushed to firebase $value"));
-    } catch (e) {
-      print(e);
-    }
-  }
+  Widget _formWidget() {
+    return Form(
+      key: _formKey,
+      child: Expanded(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Phone Number form field
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey[800],
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      labelStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      border: InputBorder.none,
+                      labelText: "Phone Number"),
+                  // ignore: missing_return
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return "Phone Number is Required";
+                    }
+                  },
+                  onChanged: (String value) {
+                    _phone = value;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
 
-  void setCategory(String category) {}
+              // Password form field
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey[800],
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                child: TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      border: InputBorder.none,
+                      labelText: "Password"),
+                  // ignore: missing_return
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return "Password is Required";
+                    }
+                  },
+                  onChanged: (String value) {
+                    _password = value;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              // Confirm password form field
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey[800],
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                child: TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      border: InputBorder.none,
+                      labelText: "Confirm Password"),
+                  // ignore: missing_return
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return "Password is Required";
+                    } else if (_password != _confirmPassword) {
+                      return "Password did not match";
+                    }
+                  },
+                  onChanged: (String value) {
+                    _confirmPassword = value;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+
+              // Sign up custom button
+              MaterialButton(
+                elevation: 0,
+                minWidth: double.maxFinite,
+                height: 50,
+                onPressed: () {
+                  if (_password == _confirmPassword) {
+                    print("password Confirmed");
+                    print(context.read<AuthenticationService>().signUp(
+                          email: _phone,
+                          password: _password,
+                        ));
+                  } else {
+                    print("password Not Confirmed");
+                  }
+
+                  if (!_formKey.currentState.validate()) {
+                    return;
+                  }
+                  _formKey.currentState.save();
+                  print(_phone);
+                  print(_password);
+                },
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey[600]),
+                    borderRadius: BorderRadius.circular(3)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Sign up',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                  ],
+                ),
+                textColor: Colors.white,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Need Help?",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              GestureDetector(
+                child: Text(
+                  "Already a user? Sign in now.",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignIn()));
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+// Widget
 }

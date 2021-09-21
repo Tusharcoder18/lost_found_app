@@ -4,7 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:lost_found_app/screens/landing_screen.dart';
-import 'package:lost_found_app/screens/sign_out.dart';
 
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_up.dart';
@@ -36,7 +35,7 @@ class _SignInState extends State<SignIn> {
 
     // If user sign in is successful, then this will push to the HomeScreen()
     if (firebaseUser != null) {
-      return LandingScreen(firebaseUser);
+      return LandingScreen();
     }
 
     // If user is not signed in then this sign in page will be displayed
@@ -59,11 +58,15 @@ class _SignInState extends State<SignIn> {
   // This widget contains the title of the app and the logo(if any)
   Widget _headerWidget() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           "Lost Found",
-          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 40),
+          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 30),
+        ),
+        Container(
+          height: 70,
+          child: Icon(FontAwesomeIcons.search),
         ),
       ],
     );
@@ -196,9 +199,18 @@ class _SignInState extends State<SignIn> {
               SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: 10,
-              ),
+              // CustomButton(
+              //     text: "Sign-in using Facebook",
+              //     icon: Icon(FontAwesomeIcons.facebook),
+              //     color: Colors.blue,
+              //     onTap: () {
+              //       print(context
+              //           .read<AuthenticationService>()
+              //           .signInWithFacebook());
+              //     }),
+              // SizedBox(
+              //   height: 10,
+              // ),
               Text(
                 "Need Help?",
                 style: Theme.of(context).textTheme.headline2,
