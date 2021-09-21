@@ -10,14 +10,20 @@ also uploading the info about the uploader and the lost object.
 */
 
 class UploadService {
-  String _name;
+  String _title;
   String _email;
   String _phone;
   String _description;
+<<<<<<< HEAD
   String _category;
   DateTime _date;
   List<String> _imageUrls = [];
   List<File> _images = [];
+=======
+  DateTime _dateTime;
+  List<String> _tags;
+  List<String> _imageUrls = [];
+>>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
@@ -25,6 +31,7 @@ class UploadService {
 
   // Uploads multiple images to the Firebase Storage and stores the imageurls
   // for future use
+<<<<<<< HEAD
   Future<void> uploadImages() async {
     try {
       for (int i = 0; i < _images.length; i++) {
@@ -38,18 +45,29 @@ class UploadService {
         _imageUrl = (await imageSnapshot.ref.getDownloadURL());
         _imageUrls.add(_imageUrl);
       }
+=======
+  Future<void> uploadImage({File image, String title}) async {
+    try {
+      String _imageUrl;
+      UploadTask uploadTask = _storageReference
+          .child(title)
+          .putFile(image, SettableMetadata(contentType: "image/jpeg"));
+      TaskSnapshot imageSnapshot = (await uploadTask);
+      _imageUrl = (await imageSnapshot.ref.getDownloadURL());
+      _imageUrls.add(_imageUrl);
+>>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
     } catch (e) {
       print(e);
     }
   }
 
   // Setters
-  void setCategory(String category) {
-    _category = category;
+  void setTags(List<String> tags) {
+    _tags = tags;
   }
 
-  void setName(String name) {
-    _name = name;
+  void setTitle(String title) {
+    _title = title;
   }
 
   void setEmail(String email) {
@@ -58,6 +76,10 @@ class UploadService {
 
   void setPhone(String phone) {
     _phone = phone;
+  }
+
+  void setDate(DateTime dateTime) {
+    _dateTime = dateTime;
   }
 
   void setDescription(String description) {
@@ -99,16 +121,23 @@ class UploadService {
     try {
       print(_imageUrls);
       _firestoreReference.collection("info").add({
-        'name': _name ?? '',
+        'title': _title ?? '',
         'email': _email ?? '',
         'phone': _phone ?? '',
+        'date': _dateTime ?? '',
         'description': _description ?? '',
-        'category': _category ?? ['Others'],
+        'tags': _tags ?? ['Others'],
         'images': _imageUrls ?? [''],
+<<<<<<< HEAD
         'date': _date.toString().split(" ")[0],
       }).then((value) => print("Data pushed to firebase"));
+=======
+      }).then((value) => print("Data pushed to firebase $value"));
+>>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
     } catch (e) {
       print(e);
     }
   }
+
+  void setCategory(String category) {}
 }

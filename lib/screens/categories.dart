@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:lost_found_app/screens/upload_form.dart';
+=======
+import 'package:lost_found_app/screens/sign_out.dart';
+import 'package:lost_found_app/screens/uploadPage.dart';
+>>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:provider/provider.dart';
 
@@ -54,10 +59,9 @@ class Categories extends StatelessWidget {
                         color: Colors.black,
                       ),
                       Container(
-                        child: Text(
-                          _category[index],
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
+                        child: Text(_category[index],
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 15)),
                       ),
                     ],
                   ),
@@ -67,7 +71,11 @@ class Categories extends StatelessWidget {
                   context.read<UploadService>().setCategory(_category[index]);
                   print(_category[index]);
                   Navigator.push(context,
+<<<<<<< HEAD
                       MaterialPageRoute(builder: (context) => UploadForm()));
+=======
+                      MaterialPageRoute(builder: (context) => UploadPage()));
+>>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
                 },
               );
             },
