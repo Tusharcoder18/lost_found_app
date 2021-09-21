@@ -14,16 +14,9 @@ class UploadService {
   String _email;
   String _phone;
   String _description;
-<<<<<<< HEAD
-  String _category;
-  DateTime _date;
-  List<String> _imageUrls = [];
-  List<File> _images = [];
-=======
   DateTime _dateTime;
   List<String> _tags;
   List<String> _imageUrls = [];
->>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
@@ -31,21 +24,6 @@ class UploadService {
 
   // Uploads multiple images to the Firebase Storage and stores the imageurls
   // for future use
-<<<<<<< HEAD
-  Future<void> uploadImages() async {
-    try {
-      for (int i = 0; i < _images.length; i++) {
-        File image = _images[i];
-        String name = _name + i.toString();
-        String _imageUrl;
-        UploadTask uploadTask = _storageReference
-            .child(name)
-            .putFile(image, SettableMetadata(contentType: "image/jpeg"));
-        TaskSnapshot imageSnapshot = (await uploadTask);
-        _imageUrl = (await imageSnapshot.ref.getDownloadURL());
-        _imageUrls.add(_imageUrl);
-      }
-=======
   Future<void> uploadImage({File image, String title}) async {
     try {
       String _imageUrl;
@@ -55,7 +33,6 @@ class UploadService {
       TaskSnapshot imageSnapshot = (await uploadTask);
       _imageUrl = (await imageSnapshot.ref.getDownloadURL());
       _imageUrls.add(_imageUrl);
->>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
     } catch (e) {
       print(e);
     }
@@ -128,12 +105,7 @@ class UploadService {
         'description': _description ?? '',
         'tags': _tags ?? ['Others'],
         'images': _imageUrls ?? [''],
-<<<<<<< HEAD
-        'date': _date.toString().split(" ")[0],
-      }).then((value) => print("Data pushed to firebase"));
-=======
       }).then((value) => print("Data pushed to firebase $value"));
->>>>>>> bdcef9d096ebf36e3c6fd7732d2926335a8954b7
     } catch (e) {
       print(e);
     }
