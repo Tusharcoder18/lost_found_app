@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/screens/categories.dart';
+import 'package:lost_found_app/services/authentication_service.dart';
+import 'package:provider/src/provider.dart';
 
 /*
 Successfully authenticated users will be redirected to the Landing screen. 
@@ -19,7 +21,9 @@ class LandingScreen extends StatelessWidget {
               // Lost button
               Expanded(
                   child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<AuthenticationService>().signOutFromAll();
+                },
                 color: Colors.black,
                 textColor: Colors.white,
                 child: Center(
