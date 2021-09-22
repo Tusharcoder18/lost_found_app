@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 get darkTheme => ThemeData(
+      hintColor: Colors.yellow,
       primarySwatch: Colors.grey,
       appBarTheme: AppBarTheme(
         brightness: Brightness.dark,
@@ -13,8 +14,10 @@ get darkTheme => ThemeData(
       brightness: Brightness.dark,
       canvasColor: Colors.black45,
       accentColor: Colors.cyanAccent,
+      cardColor: Color(0xff1c1c1c),
       accentIconTheme: IconThemeData(color: Colors.white),
       fontFamily: 'OpenSans',
+      buttonColor: Colors.white,
       textTheme: TextTheme(
         headline1: TextStyle(
           color: Colors.white,
@@ -26,8 +29,13 @@ get darkTheme => ThemeData(
           fontFamily: 'OpenSans',
           fontSize: 11,
         ),
-        bodyText1: TextStyle(
+        headline3: TextStyle(
           color: Colors.white,
+          fontFamily: 'OpenSans',
+          fontSize: 30,
+        ),
+        bodyText1: TextStyle(
+          color: Colors.black,
           fontFamily: 'OpenSans',
           fontSize: 9,
         ),
