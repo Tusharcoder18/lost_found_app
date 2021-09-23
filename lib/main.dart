@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
+import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
               context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
+        Provider<UploadService>(create: (context) => UploadService()),
       ],
       child: MaterialApp(
         title: "Lost and Found",
