@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/screens/location_screen.dart';
 import 'package:lost_found_app/screens/upload_form.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:provider/provider.dart';
@@ -66,8 +67,10 @@ class Categories extends StatelessWidget {
                   // Store the selected category in the Upload Service class
                   context.read<UploadService>().setCategory(_category[index]);
                   print(_category[index]);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UploadForm()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LocationScreen()));
                 },
               );
             },

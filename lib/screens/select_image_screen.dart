@@ -23,6 +23,7 @@ class _ImageScreenState extends State<ImageScreen> {
   int imageCount = 0, index = 0;
   final ImagePicker _picker = ImagePicker();
 
+  // Shows a dialog to select single or multiple images
   void _pickImages() async {
     try {
       final pickedFile = await _picker.getImage(
@@ -54,8 +55,8 @@ class _ImageScreenState extends State<ImageScreen> {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.,
         children: [
+          // Select image box
           Padding(
             padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
             child: GestureDetector(
