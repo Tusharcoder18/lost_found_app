@@ -21,12 +21,12 @@ get darkTheme => ThemeData(
         headline1: TextStyle(
           color: Colors.white,
           fontFamily: 'OpenSans',
-          fontSize: 14,
+          fontSize: 16,
         ),
         headline2: TextStyle(
           color: Colors.white,
           fontFamily: 'OpenSans',
-          fontSize: 11,
+          fontSize: 14,
         ),
         headline3: TextStyle(
           color: Colors.white,
@@ -36,7 +36,7 @@ get darkTheme => ThemeData(
         bodyText1: TextStyle(
           color: Colors.black,
           fontFamily: 'OpenSans',
-          fontSize: 9,
+          fontSize: 11,
         ),
       ),
     );

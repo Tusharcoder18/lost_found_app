@@ -90,60 +90,54 @@ class _LocationScreenState extends State<LocationScreen> {
               ),
             ),
           ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "Please enter the time range you found the valuable:",
-                  style: TextStyle(fontSize: 16),
+          SizedBox(height: 20),
+          Text(
+            "Please enter the time range you found the valuable:",
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // From button
+              MaterialButton(
+                onPressed: () async {
+                  _fromTime = await _selectTime(context);
+                  setState(() {});
+                },
+                height: screenHeight * 0.07,
+                color: Colors.white,
+                child: Text(
+                  _fromTime,
+                  style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // From button
-                    MaterialButton(
-                      onPressed: () async {
-                        _fromTime = await _selectTime(context);
-                        setState(() {});
-                      },
-                      height: screenHeight * 0.07,
-                      color: Colors.white,
-                      child: Text(
-                        _fromTime,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                      ),
-                    ),
-                    Text("--"),
-                    // To button
-                    MaterialButton(
-                      onPressed: () async {
-                        _toTime = await _selectTime(context);
-                        setState(() {});
-                      },
-                      height: screenHeight * 0.07,
-                      color: Colors.white,
-                      child: Text(
-                        _toTime,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                      ),
-                    ),
-                  ],
+              ),
+              Text("--"),
+              // To button
+              MaterialButton(
+                onPressed: () async {
+                  _toTime = await _selectTime(context);
+                  setState(() {});
+                },
+                height: screenHeight * 0.07,
+                color: Colors.white,
+                child: Text(
+                  _toTime,
+                  style: TextStyle(color: Colors.black, fontSize: 15),
                 ),
-                CustomButton(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MoreDetailsScreen()));
-                  },
-                  color: Colors.white,
-                  text: "Next",
-                  style: TextStyle(color: Colors.black),
-                  icon: Icon(Icons.navigate_next),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
+          Expanded(child: SizedBox()),
+          CustomButton(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MoreDetailsScreen()));
+            },
+            color: Colors.white,
+            text: "Next",
+            style: TextStyle(color: Colors.black),
+            icon: Icon(Icons.navigate_next),
           ),
         ],
       ),

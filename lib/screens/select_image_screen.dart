@@ -53,75 +53,80 @@ class _ImageScreenState extends State<ImageScreen> {
       appBar: AppBar(
         title: Text("Select images"),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Select image box
-          Padding(
-            padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
-            child: GestureDetector(
-              onTap: _pickImages,
-              child: (imageCount == 0)
-                  ? DottedBorder(
-                      strokeCap: StrokeCap.round,
-                      borderType: BorderType.RRect,
-                      dashPattern: [6, 8],
-                      color: Colors.white,
-                      strokeWidth: 3,
-                      child: SizedBox(
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Select image box
+            Padding(
+              padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
+              child: GestureDetector(
+                onTap: _pickImages,
+                child: (imageCount == 0)
+                    ? DottedBorder(
+                        strokeCap: StrokeCap.round,
+                        borderType: BorderType.RRect,
+                        dashPattern: [6, 8],
+                        color: Colors.white,
+                        strokeWidth: 3,
+                        child: SizedBox(
+                          width: screenWidth * 0.75,
+                          height: screenHeight * 0.3,
+                          child: Icon(
+                            Icons.upload,
+                            size: screenWidth * 0.1,
+                          ),
+                        ),
+                      )
+                    : SizedBox(
                         width: screenWidth * 0.75,
                         height: screenHeight * 0.3,
-                        child: Icon(
-                          Icons.upload,
-                          size: screenWidth * 0.1,
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            scrollDirection: Axis.horizontal,
+                            enableInfiniteScroll: false,
+                            autoPlay: true,
+                          ),
+                          items: images
+                              .map(
+                                (item) => Image.file(
+                                  File(item.path),
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
-                    )
-                  : SizedBox(
-                      width: screenWidth * 0.75,
-                      height: screenHeight * 0.3,
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          scrollDirection: Axis.horizontal,
-                          enableInfiniteScroll: false,
-                          autoPlay: true,
-                        ),
-                        items: images
-                            .map(
-                              (item) => Image.file(
-                                File(item.path),
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
+              ),
             ),
-          ),
-          SizedBox(
-            height: screenHeight * 0.2,
-          ),
-          CustomButton(
-            onTap: _pickImages,
-            color: Colors.white,
-            text: "Add images",
-            style: TextStyle(color: Colors.black),
-            icon: Icon(Icons.add),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          CustomButton(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Categories()));
-            },
-            color: Colors.white,
-            text: "Next",
-            style: TextStyle(color: Colors.black),
-            icon: Icon(Icons.navigate_next),
-          ),
-        ],
+            Expanded(
+              child: SizedBox(
+                height: screenHeight * 0.2,
+              ),
+            ),
+            CustomButton(
+              onTap: _pickImages,
+              color: Colors.white,
+              text: "Add images",
+              style: TextStyle(color: Colors.black),
+              icon: Icon(Icons.add),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CustomButton(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Categories()));
+              },
+              color: Colors.white,
+              text: "Next",
+              style: TextStyle(color: Colors.black),
+              icon: Icon(Icons.navigate_next),
+            ),
+          ],
+        ),
       ),
     );
   }
