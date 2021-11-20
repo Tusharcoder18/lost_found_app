@@ -4,6 +4,8 @@ import 'package:lost_found_app/screens/categories.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
+import 'select_image_screen.dart';
+
 /*
 Successfully authenticated users will be redirected to the Landing screen. 
 Landing screen provides the user with two options for further navigation. 
@@ -53,7 +55,9 @@ class LandingScreen extends StatelessWidget {
               // Lost button
               Expanded(
                   child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<AuthenticationService>().signOutFromAll();
+                },
                 color: Colors.black,
                 textColor: Colors.white,
                 child: Center(
@@ -68,7 +72,7 @@ class LandingScreen extends StatelessWidget {
                   child: MaterialButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Categories()));
+                      MaterialPageRoute(builder: (context) => ImageScreen()));
                 },
                 color: Colors.white,
                 child: Center(

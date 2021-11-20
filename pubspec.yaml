@@ -38,8 +38,9 @@ dependencies:
   firebase_storage: ^8.0.6
   image_picker: ^0.7.5+2
   flutter_form_builder: ^6.0.1
+  google_maps_flutter: ^2.0.6
+  dotted_border: ^2.0.0+1
   carousel_slider: ^3.0.0
-  place_picker: ^0.9.19-nullsafety
 
 dev_dependencies:
   flutter_test:

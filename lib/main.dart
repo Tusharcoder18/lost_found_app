@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/services/upload_service.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           initialData: null,
         ),
         Provider<UploadService>(create: (context) => UploadService()),
+        Provider<Report>(create: (context) => Report()),
       ],
       child: MaterialApp(
         title: "Lost and Found",
