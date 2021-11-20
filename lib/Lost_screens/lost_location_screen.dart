@@ -13,12 +13,12 @@ integration and also allows to select the time range between which the valuable
 was lost or found.
 */
 
-class LocationScreen extends StatefulWidget {
+class LostLocationScreen extends StatefulWidget {
   @override
-  _LocationScreenState createState() => _LocationScreenState();
+  _LostLocationScreenState createState() => _LostLocationScreenState();
 }
 
-class _LocationScreenState extends State<LocationScreen> {
+class _LostLocationScreenState extends State<LostLocationScreen> {
   String _fromTime = "FROM";
   String _toTime = "TO";
   String _location = "INDIA";
@@ -143,7 +143,7 @@ class _LocationScreenState extends State<LocationScreen> {
               context.read<Report>().setTimeTo(_toTime);
               context.read<Report>().setLocation(_location);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MoreDetailsScreen()));
+                  MaterialPageRoute(builder: (context) => LostDetailsScreen()));
               //           }  else {
               //             context.read<Search>().setTimeFrom(_fromTime);
               // context.read<Search>().setTimeTo(_toTime);

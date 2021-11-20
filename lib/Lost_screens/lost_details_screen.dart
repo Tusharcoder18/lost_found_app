@@ -5,17 +5,19 @@ import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
 import 'package:provider/src/provider.dart';
 
+import 'lost_review_details_screen.dart';
+
 /*
 The More details screen asks the user for more information related to the found
 valuable such as Title, Monetary Value, Unique characteristic of valuable.
 */
 
-class MoreDetailsScreen extends StatefulWidget {
+class LostDetailsScreen extends StatefulWidget {
   @override
-  State<MoreDetailsScreen> createState() => _MoreDetailsScreenState();
+  State<LostDetailsScreen> createState() => _LostDetailsScreenState();
 }
 
-class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
+class _LostDetailsScreenState extends State<LostDetailsScreen> {
   String _title;
   String _value;
   String _uniqueInfo;
@@ -96,7 +98,7 @@ class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ReviewDetailsScreen()));
+                          builder: (context) => LostReviewDetailsScreen()));
                 },
                 color: Colors.white,
                 text: "Next",
