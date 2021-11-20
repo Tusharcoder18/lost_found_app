@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Lost_screens/lost_location_screen.dart';
 import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/Models/search.dart';
 import 'package:lost_found_app/screens/location_screen.dart';
 import 'package:lost_found_app/screens/upload_form.dart';
 import 'package:lost_found_app/services/upload_service.dart';
@@ -68,7 +69,7 @@ class LostCategories extends StatelessWidget {
                 onTap: () {
                   // Store the selected category in the Upload Service class
                   // context.read<UploadService>().setCategory(_category[index]);
-                  context.read<Report>().setCategory(_category[index]);
+                  context.read<Search>().setCategory(_category[index]);
                   print(_category[index]);
                   Navigator.push(
                       context,

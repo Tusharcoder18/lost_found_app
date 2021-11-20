@@ -139,9 +139,9 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
             onTap: () {
               // final status = context.read<Status>().getStatus();
               // if(status=="FOUND"){
-              context.read<Report>().setTimeFrom(_fromTime);
-              context.read<Report>().setTimeTo(_toTime);
-              context.read<Report>().setLocation(_location);
+              context.read<Search>().setTimeFrom(_fromTime);
+              context.read<Search>().setTimeTo(_toTime);
+              context.read<Search>().setLocation(_location);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LostDetailsScreen()));
               //           }  else {

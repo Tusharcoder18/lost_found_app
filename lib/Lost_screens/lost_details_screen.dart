@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/Models/search.dart';
 import 'package:lost_found_app/screens/review_details_screen.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
@@ -92,9 +93,9 @@ class _LostDetailsScreenState extends State<LostDetailsScreen> {
               CustomButton(
                 onTap: () {
                   
-                  context.read<Report>().setValue(_value);
-                  context.read<Report>().setUniqueInfo(_uniqueInfo);
-                  context.read<Report>().setTitle(_title);
+                  context.read<Search>().setValue(_value);
+                  context.read<Search>().setUniqueInfo(_uniqueInfo);
+                  context.read<Search>().setTitle(_title);
                   Navigator.push(
                       context,
                       MaterialPageRoute(

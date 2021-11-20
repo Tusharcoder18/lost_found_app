@@ -18,9 +18,6 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-     
-=======
       drawer: Drawer(
         child: ListView(
           children: [
@@ -53,7 +50,6 @@ class LandingScreen extends StatelessWidget {
           ],
         ),
       ),
->>>>>>> 994b002a68b52c59a4c3d29463097eec5fb32933
       body: SafeArea(
         child: Container(
           child: Column(
