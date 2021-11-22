@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
 import 'package:provider/src/provider.dart';
@@ -100,9 +101,15 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
               height: screenHeight * 0.04,
             ),
             CustomButton(
-              onTap: () {
+              onTap: () async {
                 context.read<Report>().setAnythingElse(_anythingElse);
                 print(_anythingElse);
+                await context
+                    .read<UploadService>()
+                    .uploadImages(context)
+                    .then((value) => print("Images Uploaded"));
+                await context.read<UploadService>().uploadReport(context);
+                print("Upload Done");
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Container()));
               },

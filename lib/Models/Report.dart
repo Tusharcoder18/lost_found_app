@@ -53,6 +53,10 @@ class Report {
     _images.add(image);
   }
 
+  void setImageUrls(String imageUrl) {
+    _imageUrls.add(imageUrl);
+  }
+
   String getTitle() {
     return _title;
   }
@@ -91,5 +95,9 @@ class Report {
 
   List<File> getImages() {
     return _images;
+  }
+
+  List<String> getImageUrls() {
+    return _imageUrls;
   }
 }
