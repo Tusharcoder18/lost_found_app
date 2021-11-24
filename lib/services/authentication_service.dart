@@ -1,14 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 /*
 The authentication service contains functional features required for 
 authentication such as sign in, sign up, sign out, etc.
 It also includes authentication using external apps such as Google account
 and Facebook account.
-
+2
 Note: Provider is used as the primary state management tool to provide
 authentication service to the app.
 */
@@ -16,7 +15,6 @@ authentication service to the app.
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  final FacebookLogin facebookLogin = FacebookLogin();
 
   AuthenticationService(this._firebaseAuth);
 
@@ -95,45 +93,44 @@ class AuthenticationService {
 
   // Sign in a user using the Facebook account credentials
   // It will start an interactive sign in process
-  Future<String> signInWithFacebook() async {
-    final FacebookLoginResult result = await facebookLogin.logIn(['email']);
-    switch (result.status) {
-      case FacebookLoginStatus.cancelledByUser:
-        print("Login Cancelled");
-        break;
-      case FacebookLoginStatus.error:
-        print("Login Error!");
-        break;
-      case FacebookLoginStatus.loggedIn:
-        try {
-          final FacebookAccessToken accessToken = result.accessToken;
-          AuthCredential credential =
-              FacebookAuthProvider.credential(accessToken.token);
-          final UserCredential authResult =
-              await _firebaseAuth.signInWithCredential(credential);
-          final User user = authResult.user;
-          return '$user';
-        } catch (e) {
-          print(e);
-        }
-        break;
-    }
-    return null;
-  }
+  // Future<String> signInWithFacebook() async {
+  //   final FacebookLoginResult result = await facebookLogin.logIn(['email']);
+  //   switch (result.status) {
+  //     case FacebookLoginStatus.cancelledByUser:
+  //       print("Login Cancelled");
+  //       break;
+  //     case FacebookLoginStatus.error:
+  //       print("Login Error!");
+  //       break;
+  //     case FacebookLoginStatus.loggedIn:
+  //       try {
+  //         final FacebookAccessToken accessToken = result.accessToken;
+  //         AuthCredential credential =
+  //             FacebookAuthProvider.credential(accessToken.token);
+  //         final UserCredential authResult =
+  //             await _firebaseAuth.signInWithCredential(credential);
+  //         final User user = authResult.user;
+  //         return '$user';
+  //       } catch (e) {
+  //         print(e);
+  //       }
+  //       break;
+  //   }
+  //   return null;
+  // }
 
   // Signs out the current user who is signed in using the Facebook account
   // credentials
-  Future<void> signOutFacebook() async {
-    await facebookLogin.logOut();
+  // Future<void> signOutFacebook() async {
+  //   await facebookLogin.logOut();
 
-    print("Facebook User Signed Out");
-  }
+  //   print("Facebook User Signed Out");
+  // }
 
   // Signs out the current user
   Future<void> signOutFromAll() async {
     signOut();
     signOutGoogle();
-    signOutFacebook();
   }
 
   // Sign up a user with a given phone or email and password

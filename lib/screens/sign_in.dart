@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lost_found_app/screens/home_screen.dart';
+
+import 'package:lost_found_app/screens/landing_screen.dart';
+
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/screens/sign_up.dart';
+import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -33,7 +36,7 @@ class _SignInState extends State<SignIn> {
 
     // If user sign in is successful, then this will push to the HomeScreen()
     if (firebaseUser != null) {
-      return HomeScreen(firebaseUser);
+      return LandingScreen();
     }
 
     // If user is not signed in then this sign in page will be displayed
@@ -197,18 +200,18 @@ class _SignInState extends State<SignIn> {
               SizedBox(
                 height: 10,
               ),
-              CustomButton(
-                  text: "Sign-in using Facebook",
-                  icon: Icon(FontAwesomeIcons.facebook),
-                  color: Colors.blue,
-                  onTap: () {
-                    print(context
-                        .read<AuthenticationService>()
-                        .signInWithFacebook());
-                  }),
-              SizedBox(
-                height: 10,
-              ),
+              // CustomButton(
+              //     text: "Sign-in using Facebook",
+              //     icon: Icon(FontAwesomeIcons.facebook),
+              //     color: Colors.blue,
+              //     onTap: () {
+              //       print(context
+              //           .read<AuthenticationService>()
+              //           .signInWithFacebook());
+              //     }),
+              // SizedBox(
+              //   height: 10,
+              // ),
               Text(
                 "Need Help?",
                 style: Theme.of(context).textTheme.headline2,
@@ -233,43 +236,6 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// Custom button takes multiple arguments to render the desired button
-class CustomButton extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final Icon icon;
-  final Color color;
-  final Function onTap;
-  CustomButton({this.text, this.icon, this.color, this.style, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      elevation: 0,
-      minWidth: double.maxFinite,
-      height: 50,
-      onPressed: () {
-        if (onTap != null) {
-          onTap();
-        }
-      },
-      color: color != null ? color : Colors.transparent,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          icon != null ? icon : Icon(FontAwesomeIcons.sign),
-          SizedBox(width: 10),
-          Text(text,
-              style: style != null
-                  ? style
-                  : Theme.of(context).textTheme.headline1),
-        ],
-      ),
-      textColor: color != Colors.white ? Colors.white : Colors.black,
     );
   }
 }

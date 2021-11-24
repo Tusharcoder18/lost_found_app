@@ -14,23 +14,30 @@ get darkTheme => ThemeData(
       brightness: Brightness.dark,
       canvasColor: Colors.black45,
       accentColor: Colors.cyanAccent,
+      cardColor: Color(0xff1c1c1c),
       accentIconTheme: IconThemeData(color: Colors.white),
       fontFamily: 'OpenSans',
+      buttonColor: Colors.white,
       textTheme: TextTheme(
         headline1: TextStyle(
           color: Colors.white,
           fontFamily: 'OpenSans',
-          fontSize: 14,
+          fontSize: 16,
         ),
         headline2: TextStyle(
           color: Colors.white,
           fontFamily: 'OpenSans',
-          fontSize: 11,
+          fontSize: 14,
         ),
-        bodyText1: TextStyle(
+        headline3: TextStyle(
           color: Colors.white,
           fontFamily: 'OpenSans',
-          fontSize: 9,
+          fontSize: 30,
+        ),
+        bodyText1: TextStyle(
+          color: Colors.black,
+          fontFamily: 'OpenSans',
+          fontSize: 11,
         ),
       ),
     );

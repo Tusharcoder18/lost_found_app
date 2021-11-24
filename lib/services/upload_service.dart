@@ -14,33 +14,38 @@ class UploadService {
   String _email;
   String _phone;
   String _description;
-  DateTime _dateTime;
-  List<String> _tags;
+  String _category;
+  DateTime _date;
   List<String> _imageUrls = [];
+  List<File> _images = [];
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
   final FirebaseFirestore _firestoreReference = FirebaseFirestore.instance;
 
-  // Uploads the selected file to the Firebase Storage and stores the imageurl
+  // Uploads multiple images to the Firebase Storage and stores the imageurls
   // for future use
-  Future<void> uploadImage({File image, String title}) async {
+  Future<void> uploadImages() async {
     try {
-      String _imageUrl;
-      UploadTask uploadTask = _storageReference
-          .child(title)
-          .putFile(image, SettableMetadata(contentType: "image/jpeg"));
-      TaskSnapshot imageSnapshot = (await uploadTask);
-      _imageUrl = (await imageSnapshot.ref.getDownloadURL());
-      _imageUrls.add(_imageUrl);
+      for (int i = 0; i < _images.length; i++) {
+        File image = _images[i];
+        String name = _name + i.toString();
+        String _imageUrl;
+        UploadTask uploadTask = _storageReference
+            .child(name)
+            .putFile(image, SettableMetadata(contentType: "image/jpeg"));
+        TaskSnapshot imageSnapshot = (await uploadTask);
+        _imageUrl = (await imageSnapshot.ref.getDownloadURL());
+        _imageUrls.add(_imageUrl);
+      }
     } catch (e) {
       print(e);
     }
   }
 
   // Setters
-  void setTags(List<String> tags) {
-    _tags = tags;
+  void setCategory(String category) {
+    _category = category;
   }
 
   void setTitle(String title) {
@@ -63,7 +68,30 @@ class UploadService {
     _description = description;
   }
 
+  void setDate(DateTime date) {
+    _date = date;
+  }
+
+  void setImages(File image) {
+    _images.add(image);
+  }
+
   // Please add the getters here in case needed
+  String getName() {
+    return _name;
+  }
+
+  String getDescription() {
+    return _description;
+  }
+
+  String getCategory() {
+    return _category;
+  }
+
+  List<File> getImages() {
+    return _images;
+  }
 
   /*
   Uploads the important information of the uploader and the lost object
@@ -73,15 +101,17 @@ class UploadService {
   */
   Future<void> uploadInfo() async {
     try {
+      print(_imageUrls);
       _firestoreReference.collection("info").add({
         'title': _title ?? '',
         'email': _email ?? '',
         'phone': _phone ?? '',
         'date': _dateTime ?? '',
         'description': _description ?? '',
-        'tags': _tags ?? ['Others'],
+        'category': _category ?? ['Others'],
         'images': _imageUrls ?? [''],
-      }).then((value) => print("Data pushed to firebase $value"));
+        'date': _date.toString().split(" ")[0],
+      }).then((value) => print("Data pushed to firebase"));
     } catch (e) {
       print(e);
     }
