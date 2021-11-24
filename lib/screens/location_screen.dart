@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/screens/more_details_screen.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 import 'package:location/location.dart' as LocationManager;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /*
 The LocationScreen allows the user to select the location using a Google Maps 
@@ -35,6 +37,8 @@ class _LocationScreenState extends State<LocationScreen> {
 
     markers = Set.from([]);
   }
+
+  String _location = "INDIA";
 
   // Returns the current time in the format "hour:minute Period"
   String getCurrentTime() {
@@ -184,6 +188,9 @@ class _LocationScreenState extends State<LocationScreen> {
           Expanded(child: SizedBox()),
           CustomButton(
             onTap: () {
+              context.read<Report>().setTimeFrom(_fromTime);
+              context.read<Report>().setTimeTo(_toTime);
+              context.read<Report>().setLocation(_location);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => MoreDetailsScreen()));
             },

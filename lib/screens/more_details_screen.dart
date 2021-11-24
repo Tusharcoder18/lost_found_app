@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/screens/review_details_screen.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
+import 'package:provider/src/provider.dart';
 
 /*
 The More details screen asks the user for more information related to the found
@@ -14,13 +17,14 @@ class MoreDetailsScreen extends StatefulWidget {
 
 class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
   String _title;
-  String _worth;
-  String _unique_details;
+  String _value;
+  String _uniqueInfo;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text('Add more details!'),
@@ -29,7 +33,7 @@ class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
+          child: ListView(
             children: [
               CustomTextFormField(
                 context,
@@ -61,7 +65,7 @@ class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
                   return "";
                 },
                 onChanged: (value) {
-                  _worth = value;
+                  _value = value;
                 },
               ),
               SizedBox(
@@ -79,14 +83,19 @@ class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
                   return "";
                 },
                 onChanged: (value) {
-                  _unique_details = value;
+                  _uniqueInfo = value;
                 },
               ),
-              Expanded(child: SizedBox()),
+              SizedBox(height: screenHeight * 0.3),
               CustomButton(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Container()));
+                  context.read<Report>().setValue(_value);
+                  context.read<Report>().setUniqueInfo(_uniqueInfo);
+                  context.read<Report>().setTitle(_title);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ReviewDetailsScreen()));
                 },
                 color: Colors.white,
                 text: "Next",
