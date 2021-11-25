@@ -16,6 +16,8 @@ class UploadService {
   String _description;
   String _category;
   DateTime _date;
+  String _name;
+  DateTime _dateTime;
   List<String> _imageUrls = [];
   List<File> _images = [];
 
@@ -68,9 +70,9 @@ class UploadService {
     _description = description;
   }
 
-  void setDate(DateTime date) {
-    _date = date;
-  }
+  // void setDate(DateTime date) {
+  //   _date = date;
+  // }
 
   void setImages(File image) {
     _images.add(image);
@@ -100,6 +102,7 @@ class UploadService {
   the lost object
   */
   Future<void> uploadInfo() async {
+    final _dateTime = "NULL";
     try {
       print(_imageUrls);
       _firestoreReference.collection("info").add({

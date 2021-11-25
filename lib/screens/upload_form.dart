@@ -31,7 +31,7 @@ class _UploadFormState extends State<UploadForm> {
       "Location",
     ];
     final List<Function> _onChanged = [
-      (String value) => context.read<UploadService>().setName(value),
+      // (String value) => context.read<UploadService>().setName(value),
       (String value) => context.read<UploadService>().setDescription(value),
       (DateTime value) => context.read<UploadService>().setDate(value),
       (String value) => context.read<UploadService>().setEmail(value),

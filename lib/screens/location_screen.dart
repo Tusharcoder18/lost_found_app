@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/screens/more_details_screen.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
-import 'package:location/location.dart' as LocationManager;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /*
 The LocationScreen allows the user to select the location using a Google Maps 
@@ -20,24 +16,8 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  LatLng currentLocation;
-  Set<Marker> markers;
   String _fromTime = "FROM";
   String _toTime = "TO";
-  Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-
-    markers = Set.from([]);
-  }
-
   String _location = "INDIA";
 
   // Returns the current time in the format "hour:minute Period"
@@ -83,28 +63,6 @@ class _LocationScreenState extends State<LocationScreen> {
     return time;
   }
 
-  Future<LatLng> getUserLocation() async {
-    LocationManager.LocationData currentLocation;
-
-    final location = LocationManager.Location();
-
-    try {
-      currentLocation = await location.getLocation();
-
-      final lat = currentLocation.latitude;
-
-      final lng = currentLocation.longitude;
-
-      final center = LatLng(lat, lng);
-
-      return center;
-    } on Exception {
-      currentLocation = null;
-
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -122,29 +80,17 @@ class _LocationScreenState extends State<LocationScreen> {
           SizedBox(
             width: screenWidth,
             height: screenHeight * 0.5,
-            child: GoogleMap(
-              mapType: MapType.hybrid,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) async {
-                _controller.complete(controller);
-                currentLocation = await getUserLocation();
-              },
-              markers: markers,
-              onTap: (pos) {
-                print(pos);
-                // pos is the location in LatLng which needs to be saved in the backend.
-                Marker f = Marker(
-                    markerId: MarkerId('1'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: pos,
-                    onTap: () {});
-
-                setState(() {
-                  markers.add(f);
-                });
-              },
+            child: Container(
+              color: Colors.white,
+              child: Center(
+                child: Text(
+                  "Google Maps",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: 14),
+                ),
+              ),
             ),
           ),
           SizedBox(height: 20),

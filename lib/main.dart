@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         title: "Lost and Found",
         theme: darkTheme,
         debugShowCheckedModeBanner: false,
-        home: FullScreen(1),
+        home: SignIn(),
       ),
     );
   }
