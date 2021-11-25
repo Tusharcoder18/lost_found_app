@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lost_found_app/Lost_screens/lost_result_cards.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/screens/item_detail_fullscreen.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         title: "Lost and Found",
         theme: darkTheme,
         debugShowCheckedModeBanner: false,
-        home: FullScreen(1),
+        home: LostCards(),
       ),
     );
   }
