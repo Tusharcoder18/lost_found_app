@@ -84,6 +84,18 @@ class _FullScreenState extends State<FullScreen> {
             ),
             Container(
               margin: EdgeInsets.all(10),
+              color: Colors.white,
+              width: screenWidth,
+              child: Text(
+                '\nFound On ${DateTime.now()}\n', //TODO: Add Found Date Here from backend
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 // border: Border.all(color: Colors.black,width: 2),
 
