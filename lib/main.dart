@@ -10,6 +10,8 @@ import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
 
+import 'Models/Status.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         Provider<UploadService>(create: (context) => UploadService()),
         Provider<Report>(create: (context) => Report()),
+        Provider<Status>(create: (context) => Status()),
       ],
       child: MaterialApp(
         title: "Lost and Found",

@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lost_found_app/Models/Report.dart';
-import 'package:lost_found_app/screens/more_details_screen.dart';
-import 'package:lost_found_app/widgets/custom_button.dart';
-import 'package:provider/provider.dart';
-import 'package:location/location.dart' as LocationManager;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lost_found_app/Lost_screens/lost_details_screen.dart';
+import 'package:location/location.dart' as LocationManager;
+import 'package:lost_found_app/widgets/custom_button.dart';
 
 /*
 The LocationScreen allows the user to select the location using a Google Maps 
@@ -14,16 +12,16 @@ integration and also allows to select the time range between which the valuable
 was lost or found.
 */
 
-class LocationScreen extends StatefulWidget {
+class LostLocationScreen extends StatefulWidget {
   @override
-  _LocationScreenState createState() => _LocationScreenState();
+  _LostLocationScreenState createState() => _LostLocationScreenState();
 }
 
-class _LocationScreenState extends State<LocationScreen> {
-  LatLng currentLocation;
-  Set<Marker> markers;
+class _LostLocationScreenState extends State<LostLocationScreen> {
   String _fromTime = "FROM";
   String _toTime = "TO";
+  Set<Marker> markers;
+  LatLng currentLocation;
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -37,8 +35,6 @@ class _LocationScreenState extends State<LocationScreen> {
 
     markers = Set.from([]);
   }
-
-  String _location = "INDIA";
 
   // Returns the current time in the format "hour:minute Period"
   String getCurrentTime() {
@@ -122,29 +118,32 @@ class _LocationScreenState extends State<LocationScreen> {
           SizedBox(
             width: screenWidth,
             height: screenHeight * 0.5,
-            child: GoogleMap(
-              mapType: MapType.hybrid,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) async {
-                _controller.complete(controller);
-                currentLocation = await getUserLocation();
-              },
-              markers: markers,
-              onTap: (pos) {
-                print(pos);
-                // pos is the location in LatLng which needs to be saved in the backend.
-                Marker f = Marker(
-                    markerId: MarkerId('1'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: pos,
-                    onTap: () {});
+            child: Container(
+              color: Colors.white,
+              child: GoogleMap(
+                mapType: MapType.hybrid,
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) async {
+                  _controller.complete(controller);
+                  currentLocation = await getUserLocation();
+                },
+                markers: markers,
+                onTap: (pos) {
+                  print(pos);
+                  // pos is the location in LatLng which needs to be saved in the backend.
+                  Marker f = Marker(
+                      markerId: MarkerId('1'),
+                      icon: BitmapDescriptor.defaultMarker,
+                      position: pos,
+                      onTap: () {});
 
-                setState(() {
-                  markers.add(f);
-                });
-              },
+                  setState(() {
+                    markers.add(f);
+                  });
+                },
+              ),
             ),
           ),
           SizedBox(height: 20),
@@ -190,11 +189,11 @@ class _LocationScreenState extends State<LocationScreen> {
             onTap: () {
               // final status = context.read<Status>().getStatus();
               // if(status=="FOUND"){
-              context.read<Report>().setTimeFrom(_fromTime);
-              context.read<Report>().setTimeTo(_toTime);
-              context.read<Report>().setLocation(_location);
+              // context.read<Search>().setTimeFrom(_fromTime);
+              // context.read<Search>().setTimeTo(_toTime);
+              // context.read<Search>().setLocation(_location);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MoreDetailsScreen()));
+                  MaterialPageRoute(builder: (context) => LostDetailsScreen()));
               //           }  else {
               //             context.read<Search>().setTimeFrom(_fromTime);
               // context.read<Search>().setTimeTo(_toTime);
