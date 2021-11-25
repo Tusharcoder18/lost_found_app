@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Lost_screens/Lost_categories.dart';
-import 'package:lost_found_app/Models/Status.dart';
 import 'package:lost_found_app/screens/categories.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
@@ -58,9 +57,10 @@ class LandingScreen extends StatelessWidget {
               Expanded(
                   child: MaterialButton(
                 onPressed: () {
-                  context.read<Status>().setStatus("LOST");
-                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LostCategories()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LostCategories()));
                 },
                 color: Colors.black,
                 textColor: Colors.white,
@@ -75,10 +75,8 @@ class LandingScreen extends StatelessWidget {
               Expanded(
                   child: MaterialButton(
                 onPressed: () {
-                  context.read<Status>().setStatus("FOUND");
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ImageScreen()));
-                      
                 },
                 color: Colors.white,
                 child: Center(

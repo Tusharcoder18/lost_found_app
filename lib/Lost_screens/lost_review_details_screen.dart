@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/Models/Search.dart';
@@ -26,6 +29,7 @@ class _LostReviewDetailsScreenState extends State<LostReviewDetailsScreen> {
   String _timeTo = "DUMMYTEXT";
   String _timeFrom = "DUMMYTEXT";
   String _uniqueInfo = "DUMMYTEXT";
+  List<File> _images;
 
   @override
   void initState() {
@@ -39,6 +43,7 @@ class _LostReviewDetailsScreenState extends State<LostReviewDetailsScreen> {
     _timeFrom = context.read<Search>().getTimeFrom();
     _timeTo = context.read<Search>().getTimeTo();
     _uniqueInfo = context.read<Search>().getUniqueInfo();
+    _images = context.read<Report>().getImages();
   }
 
   @override
@@ -61,17 +66,20 @@ class _LostReviewDetailsScreenState extends State<LostReviewDetailsScreen> {
             SizedBox(
               width: screenWidth,
               height: screenHeight * 0.3,
-              child: Container(
-                color: Colors.white,
-                child: Center(
-                  child: Text(
-                    "Previously Uploaded Images",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: 14),
-                  ),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  scrollDirection: Axis.horizontal,
+                  enableInfiniteScroll: false,
+                  autoPlay: true,
                 ),
+                items: _images
+                    .map(
+                      (item) => Image.file(
+                        File(item.path),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                    .toList(),
               ),
             ),
             SizedBox(height: 10.0),

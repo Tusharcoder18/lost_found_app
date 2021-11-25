@@ -5,13 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lost_found_app/Models/Report.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FullScreen extends StatefulWidget {
   int itemid;
+  Report report;
 
-  FullScreen(int id) {
+  FullScreen(int id, Report report) {
     this.itemid = id;
+    this.report = report;
   }
 
   @override
@@ -19,17 +22,39 @@ class FullScreen extends StatefulWidget {
 }
 
 class _FullScreenState extends State<FullScreen> {
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
   Completer<GoogleMapController> _controller = Completer();
+  LatLng _currentPos;
+
+  CameraPosition getLocation(Report report) {
+    var pos = report.getLocation();
+    double lat = double.parse(pos.substring(7, 23));
+    double lon = double.parse(pos.substring(25, 41));
+    _currentPos = LatLng(lat, lon);
+    final CameraPosition _location = CameraPosition(
+      target: _currentPos,
+      zoom: 14.4746,
+    );
+
+    return _location;
+  }
 
   @override
   Widget build(BuildContext context) {
     List<int> list = [1, 2, 3, 4, 5];
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    Report _report = widget.report;
+    List<String> _imageUrls = _report.getImageUrls();
+    String _title = _report.getTitle();
+    String _date = _report.getDate();
+    String _uniqueInfo = _report.getUniqueInfo();
+    CameraPosition _location = getLocation(_report);
+    Set<Marker> markers = Set.from([]);
+    markers.add(Marker(
+        markerId: MarkerId('1'),
+        icon: BitmapDescriptor.defaultMarker,
+        position: _currentPos,
+        onTap: () {}));
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -55,19 +80,27 @@ class _FullScreenState extends State<FullScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: CarouselSlider(
+                  items: List.generate(_imageUrls.length, (index) {
+                    String url = _imageUrls[index];
+                    url = url.substring(1, url.length - 1);
+                    return Image.network(url);
+                  }),
                   options: CarouselOptions(),
-                  items: list
-                      .map((item) => Container(
-                            child: Center(
-                                //TODO: Display Image from backend here
-                                child: Text(
-                              item.toString(),
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 30),
-                            )),
-                          ))
-                      .toList(),
                 ),
+                // CarouselSlider(
+                //   options: CarouselOptions(),
+                //   items: list
+                //       .map((item) => Container(
+                //             child: Center(
+                //                 //TODO: Display Image from backend here
+                //                 child: Text(
+                //               item.toString(),
+                //               style:
+                //                   TextStyle(color: Colors.black, fontSize: 30),
+                //             )),
+                //           ))
+                //       .toList(),
+                // ),
               ),
             ),
             Container(
@@ -75,7 +108,7 @@ class _FullScreenState extends State<FullScreen> {
               color: Colors.white,
               width: screenWidth,
               child: Text(
-                'Display Item title here\n', //TODO: Add Title Here from backend
+                _title, //TODO: Add Title Here from backend
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -87,7 +120,7 @@ class _FullScreenState extends State<FullScreen> {
               color: Colors.white,
               width: screenWidth,
               child: Text(
-                '\nFound On ${DateTime.now()}\n', //TODO: Add Found Date Here from backend
+                '\nFound On ${_date}\n', //TODO: Add Found Date Here from backend
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
@@ -113,8 +146,7 @@ class _FullScreenState extends State<FullScreen> {
                           color: Colors.black),
                     ),
                     TextSpan(
-                      text:
-                          ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis ipsum neque. Curabitur malesuada molestie quam, vitae suscipit dui eleifend in. Nam dapibus turpis at venenatis accumsan. Nullam ornare lorem nec ullamcorper elementum. Ut molestie quam dolor, sit amet maximus sapien scelerisque id. Donec vel mauris at lacus finibus ornare et in felis. Aliquam erat volutpat. Morbi eu nunc felis. Quisque et enim non ex euismod rutrum non quis erat. Aenean scelerisque massa ac ante aliquam, et congue erat blandit. Nullam neque sapien, dapibus et interdum eget, venenatis id felis. Maecenas id iaculis velit. Suspendisse pharetra urna justo, a sagittis lorem laoreet vel.',
+                      text: _uniqueInfo,
                       style: TextStyle(
                           fontSize: 15, letterSpacing: 1, color: Colors.black),
                     )
@@ -133,11 +165,11 @@ class _FullScreenState extends State<FullScreen> {
                 myLocationButtonEnabled: true,
                 myLocationEnabled: true,
                 initialCameraPosition:
-                    _kGooglePlex, //TODO: Add location from backend
+                    _location, //TODO: Add location from backend
                 onMapCreated: (GoogleMapController controller) async {
                   _controller.complete(controller);
                 },
-                // markers: markers, //TODO: Add marker to the found Location
+                markers: markers, //TODO: Add marker to the found Location
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/Lost_screens/lost_result_cards.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/Models/Search.dart';
 
@@ -47,7 +48,7 @@ class _LostDetailsScreenState extends State<LostDetailsScreen> {
                   if (value == null || value.isEmpty)
                     return "Please enter some text";
 
-                  return "";
+                  return null;
                 },
                 onChanged: (value) {
                   _title = value;
@@ -66,7 +67,7 @@ class _LostDetailsScreenState extends State<LostDetailsScreen> {
                   if (num.tryParse(value) == null)
                     return "Please enter a number";
 
-                  return "";
+                  return null;
                 },
                 onChanged: (value) {
                   _value = value;
@@ -84,7 +85,7 @@ class _LostDetailsScreenState extends State<LostDetailsScreen> {
                   if (value == null || value.isEmpty)
                     return "Please enter some text";
 
-                  return "";
+                  return null;
                 },
                 onChanged: (value) {
                   _uniqueInfo = value;
@@ -93,13 +94,13 @@ class _LostDetailsScreenState extends State<LostDetailsScreen> {
               SizedBox(height: screenHeight * 0.3),
               CustomButton(
                 onTap: () {
-                  context.read<Search>().setValue(_value);
-                  context.read<Search>().setUniqueInfo(_uniqueInfo);
-                  context.read<Search>().setTitle(_title);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LostReviewDetailsScreen()));
+                  if (_formKey.currentState.validate()) {
+                    context.read<Search>().setValue(_value);
+                    context.read<Search>().setUniqueInfo(_uniqueInfo);
+                    context.read<Search>().setTitle(_title);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LostCards()));
+                  }
                 },
                 color: Colors.white,
                 text: "Next",

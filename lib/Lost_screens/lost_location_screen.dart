@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lost_found_app/Lost_screens/lost_details_screen.dart';
 import 'package:location/location.dart' as LocationManager;
+import 'package:lost_found_app/Models/Search.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
+import 'package:provider/src/provider.dart';
 
 /*
 The LocationScreen allows the user to select the location using a Google Maps 
@@ -20,6 +22,7 @@ class LostLocationScreen extends StatefulWidget {
 class _LostLocationScreenState extends State<LostLocationScreen> {
   String _fromTime = "FROM";
   String _toTime = "TO";
+  String _location = "INDIA";
   Set<Marker> markers;
   LatLng currentLocation;
   Completer<GoogleMapController> _controller = Completer();
@@ -132,6 +135,7 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
                 markers: markers,
                 onTap: (pos) {
                   print(pos);
+                  _location = pos.toString();
                   // pos is the location in LatLng which needs to be saved in the backend.
                   Marker f = Marker(
                       markerId: MarkerId('1'),
@@ -189,9 +193,9 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
             onTap: () {
               // final status = context.read<Status>().getStatus();
               // if(status=="FOUND"){
-              // context.read<Search>().setTimeFrom(_fromTime);
-              // context.read<Search>().setTimeTo(_toTime);
-              // context.read<Search>().setLocation(_location);
+              context.read<Search>().setTimeFrom(_fromTime);
+              context.read<Search>().setTimeTo(_toTime);
+              context.read<Search>().setLocation(_location);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LostDetailsScreen()));
               //           }  else {

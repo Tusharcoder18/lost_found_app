@@ -13,6 +13,19 @@ class Report {
   List<String> _imageUrls = [];
   List<File> _images = [];
 
+  // Report(
+  //   this._title,
+  //   this._category,
+  //   this._value,
+  //   this._location,
+  //   this._date,
+  //   this._timeTo,
+  //   this._timeFrom,
+  //   this._uniqueInfo,
+  //   this._anythingElse,
+  //   this._imageUrls,
+  // );
+
   void setTitle(String title) {
     _title = title;
   }
@@ -100,4 +113,19 @@ class Report {
   List<String> getImageUrls() {
     return _imageUrls;
   }
+
+  // factory Report.fromJson(Map<String, dynamic> json) {
+  //   return Report(
+  //     json['title'],
+  //     json['category'],
+  //     json['value'],
+  //     json['location'],
+  //     json['date'],
+  //     json['timeTo'],
+  //     json['timeFrom'],
+  //     json['uniqueInfo'],
+  //     json['anythingElse'],
+  //     json['imageUrls'],
+  //   );
+  // }
 }
