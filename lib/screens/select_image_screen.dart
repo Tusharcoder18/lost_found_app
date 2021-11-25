@@ -33,7 +33,7 @@ class _ImageScreenState extends State<ImageScreen> {
       );
       setState(() {
         // context.read<UploadService>().setImages(File(pickedFile.path));
-        context.read<Report>().setImages(File(pickedFile.path));
+        // context.read<Report>().setImages(File(pickedFile.path));
         images.add(pickedFile);
         print("ImageCount: $imageCount");
         imageCount++;
@@ -119,6 +119,11 @@ class _ImageScreenState extends State<ImageScreen> {
             ),
             CustomButton(
               onTap: () {
+                List<File> finalImages = [];
+                for (int i = 0; i < images.length; i++) {
+                  finalImages.add(File(images[i].path));
+                }
+                context.read<Report>().setImages(finalImages);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Categories()));
               },

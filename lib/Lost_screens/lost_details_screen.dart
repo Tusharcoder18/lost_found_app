@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/Models/Search.dart';
+
 import 'package:lost_found_app/screens/review_details_screen.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
 import 'package:provider/src/provider.dart';
+
+import 'lost_review_details_screen.dart';
 
 /*
 The More details screen asks the user for more information related to the found
 valuable such as Title, Monetary Value, Unique characteristic of valuable.
 */
 
-class MoreDetailsScreen extends StatefulWidget {
+class LostDetailsScreen extends StatefulWidget {
   @override
-  State<MoreDetailsScreen> createState() => _MoreDetailsScreenState();
+  State<LostDetailsScreen> createState() => _LostDetailsScreenState();
 }
 
-class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
-  String _title = "DUMMY";
-  String _value = "DUMMY";
-  String _uniqueInfo = "DUMMY";
+class _LostDetailsScreenState extends State<LostDetailsScreen> {
+  String _title;
+  String _value;
+  String _uniqueInfo;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -89,15 +93,13 @@ class _MoreDetailsScreenState extends State<MoreDetailsScreen> {
               SizedBox(height: screenHeight * 0.3),
               CustomButton(
                 onTap: () {
-                  if (!_formKey.currentState.validate()) {
-                    context.read<Report>().setValue(_value);
-                    context.read<Report>().setUniqueInfo(_uniqueInfo);
-                    context.read<Report>().setTitle(_title);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ReviewDetailsScreen()));
-                  }
+                  context.read<Search>().setValue(_value);
+                  context.read<Search>().setUniqueInfo(_uniqueInfo);
+                  context.read<Search>().setTitle(_title);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LostReviewDetailsScreen()));
                 },
                 color: Colors.white,
                 text: "Next",

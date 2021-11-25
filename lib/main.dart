@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lost_found_app/Lost_screens/lost_result_cards.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/screens/item_detail_fullscreen.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
@@ -9,6 +10,8 @@ import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/theme/dark_theme.dart';
 import 'package:provider/provider.dart';
+
+import 'Models/Status.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +31,6 @@ class MyApp extends StatelessWidget {
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
-        Provider<UploadService>(
-          create: (_) => UploadService(),
-        ),
         StreamProvider<User>(
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         Provider<UploadService>(create: (context) => UploadService()),
         Provider<Report>(create: (context) => Report()),
+        Provider<Status>(create: (context) => Status()),
       ],
       child: MaterialApp(
         title: "Lost and Found",

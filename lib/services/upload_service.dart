@@ -1,7 +1,10 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
+
+import 'package:lost_found_app/Models/Report.dart';
 
 /*
 This service class is used to provide upload services to the app.
@@ -10,16 +13,14 @@ also uploading the info about the uploader and the lost object.
 */
 
 class UploadService {
-  String _title;
-  String _email;
-  String _phone;
-  String _description;
-  String _category;
-  DateTime _date;
-  String _name;
-  DateTime _dateTime;
-  List<String> _imageUrls = [];
-  List<File> _images = [];
+  // String _name;
+  // String _email;
+  // String _phone;
+  // String _description;
+  // String _category;
+  // DateTime _date;
+  // List<String> _imageUrls = [];
+  // List<File> _images = [];
 
   final Reference _storageReference =
       FirebaseStorage.instance.ref().child("images");
@@ -27,72 +28,29 @@ class UploadService {
 
   // Uploads multiple images to the Firebase Storage and stores the imageurls
   // for future use
-  Future<void> uploadImages() async {
+  Future<void> uploadImages(BuildContext context) async {
     try {
+      // print("Paths of images:-");
+      // for (int i = 0; i < _images.length; i++) {
+      //   print(_images[i].path);
+      // }
+      Report _report = context.read<Report>();
+      final _images = _report.getImages();
+      final _title = _report.getTitle();
+      final _date = _report.getDate();
       for (int i = 0; i < _images.length; i++) {
         File image = _images[i];
-        String name = _name + i.toString();
+        String name = _title.toString() + _date.toString() + i.toString();
         String _imageUrl;
-        UploadTask uploadTask = _storageReference
-            .child(name)
-            .putFile(image, SettableMetadata(contentType: "image/jpeg"));
+        UploadTask uploadTask = _storageReference.child(name).putFile(image);
         TaskSnapshot imageSnapshot = (await uploadTask);
         _imageUrl = (await imageSnapshot.ref.getDownloadURL());
-        _imageUrls.add(_imageUrl);
+        print("Image Url:- " + _imageUrl);
+        _report.setImageUrls(_imageUrl);
       }
     } catch (e) {
       print(e);
     }
-  }
-
-  // Setters
-  void setCategory(String category) {
-    _category = category;
-  }
-
-  void setTitle(String title) {
-    _title = title;
-  }
-
-  void setEmail(String email) {
-    _email = email;
-  }
-
-  void setPhone(String phone) {
-    _phone = phone;
-  }
-
-  void setDate(DateTime dateTime) {
-    _dateTime = dateTime;
-  }
-
-  void setDescription(String description) {
-    _description = description;
-  }
-
-  // void setDate(DateTime date) {
-  //   _date = date;
-  // }
-
-  void setImages(File image) {
-    _images.add(image);
-  }
-
-  // Please add the getters here in case needed
-  String getName() {
-    return _name;
-  }
-
-  String getDescription() {
-    return _description;
-  }
-
-  String getCategory() {
-    return _category;
-  }
-
-  List<File> getImages() {
-    return _images;
   }
 
   /*
@@ -101,20 +59,24 @@ class UploadService {
   Note: Also uploads the image urls which is a list of multiple images of
   the lost object
   */
-  Future<void> uploadInfo() async {
-    final _dateTime = "NULL";
+  Future<void> uploadReport(BuildContext context) async {
+    Report _report = context.read<Report>();
+    final _imageUrls = _report.getImageUrls();
+
     try {
       print(_imageUrls);
-      _firestoreReference.collection("info").add({
-        'title': _title ?? '',
-        'email': _email ?? '',
-        'phone': _phone ?? '',
-        'date': _dateTime ?? '',
-        'description': _description ?? '',
-        'category': _category ?? ['Others'],
-        'images': _imageUrls ?? [''],
-        'date': _date.toString().split(" ")[0],
-      }).then((value) => print("Data pushed to firebase"));
+      _firestoreReference.collection("reports").add({
+        'title': _report.getTitle() ?? '',
+        'category': _report.getCategory() ?? '',
+        'value': _report.getValue() ?? '',
+        'location': _report.getLocation() ?? '',
+        'date': _report.getDate() ?? '',
+        'timeTo': _report.getTimeTo() ?? '',
+        'timeFrom': _report.getTimeFrom() ?? '',
+        'uniqueInfo': _report.getUniqueInfo() ?? '',
+        'anythingElse': _report.getAnythingElse() ?? '',
+        'imageUrls': _report.getImageUrls() ?? '',
+      }).then((value) => print("Report uploaded"));
     } catch (e) {
       print(e);
     }

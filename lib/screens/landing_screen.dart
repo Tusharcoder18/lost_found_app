@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/Lost_screens/Lost_categories.dart';
+import 'package:lost_found_app/Models/Status.dart';
 import 'package:lost_found_app/screens/categories.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +18,38 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: <Color>[Colors.black87, Colors.grey])),
+              child: Container(
+                child: Column(
+                  children: [
+                    Material(
+                      elevation: 10,
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/hoob.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            CustomListTile(Icons.logout, 'Logout',
+                () => {context.read<AuthenticationService>().signOutFromAll()}),
+            CustomListTile(Icons.help, 'Help!', () => {})
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Container(
           child: Column(
@@ -24,7 +58,9 @@ class LandingScreen extends StatelessWidget {
               Expanded(
                   child: MaterialButton(
                 onPressed: () {
-                  context.read<AuthenticationService>().signOutFromAll();
+                  context.read<Status>().setStatus("LOST");
+                   Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LostCategories()));
                 },
                 color: Colors.black,
                 textColor: Colors.white,
@@ -39,8 +75,10 @@ class LandingScreen extends StatelessWidget {
               Expanded(
                   child: MaterialButton(
                 onPressed: () {
+                  context.read<Status>().setStatus("FOUND");
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ImageScreen()));
+                      
                 },
                 color: Colors.white,
                 child: Center(

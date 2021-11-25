@@ -1,9 +1,7 @@
-import 'dart:io';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
-import 'package:lost_found_app/services/upload_service.dart';
+import 'package:lost_found_app/Models/Search.dart';
+
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
 import 'package:provider/src/provider.dart';
@@ -12,12 +10,13 @@ import 'package:provider/src/provider.dart';
 The review details screen allows the user to review the information and submit.
 User can edit the data in the previous screens.
 */
-class ReviewDetailsScreen extends StatefulWidget {
+class LostReviewDetailsScreen extends StatefulWidget {
   @override
-  _ReviewDetailsScreenState createState() => _ReviewDetailsScreenState();
+  _LostReviewDetailsScreenState createState() =>
+      _LostReviewDetailsScreenState();
 }
 
-class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
+class _LostReviewDetailsScreenState extends State<LostReviewDetailsScreen> {
   String _anythingElse;
   String _title = "DUMMYTEXT";
   String _category = "DUMMYTEXT";
@@ -27,21 +26,19 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
   String _timeTo = "DUMMYTEXT";
   String _timeFrom = "DUMMYTEXT";
   String _uniqueInfo = "DUMMYTEXT";
-  List<File> _images;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _title = context.read<Report>().getTitle();
-    _category = context.read<Report>().getCategory();
-    _value = context.read<Report>().getValue();
-    _location = context.read<Report>().getLocation();
-    _date = context.read<Report>().getDate();
-    _timeFrom = context.read<Report>().getTimeFrom();
-    _timeTo = context.read<Report>().getTimeTo();
-    _uniqueInfo = context.read<Report>().getUniqueInfo();
-    _images = context.read<Report>().getImages();
+    _title = context.read<Search>().getTitle();
+    _category = context.read<Search>().getCategory();
+    _value = context.read<Search>().getValue();
+    _location = context.read<Search>().getLocation();
+    _date = context.read<Search>().getDate();
+    _timeFrom = context.read<Search>().getTimeFrom();
+    _timeTo = context.read<Search>().getTimeTo();
+    _uniqueInfo = context.read<Search>().getUniqueInfo();
   }
 
   @override
@@ -64,20 +61,17 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
             SizedBox(
               width: screenWidth,
               height: screenHeight * 0.3,
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  scrollDirection: Axis.horizontal,
-                  enableInfiniteScroll: false,
-                  autoPlay: true,
+              child: Container(
+                color: Colors.white,
+                child: Center(
+                  child: Text(
+                    "Previously Uploaded Images",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 14),
+                  ),
                 ),
-                items: _images
-                    .map(
-                      (item) => Image.file(
-                        File(item.path),
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                    .toList(),
               ),
             ),
             SizedBox(height: 10.0),
@@ -109,15 +103,9 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
               height: screenHeight * 0.04,
             ),
             CustomButton(
-              onTap: () async {
-                context.read<Report>().setAnythingElse(_anythingElse);
+              onTap: () {
+                context.read<Search>().setAnythingElse(_anythingElse);
                 print(_anythingElse);
-                await context
-                    .read<UploadService>()
-                    .uploadImages(context)
-                    .then((value) => print("Images Uploaded"));
-                await context.read<UploadService>().uploadReport(context);
-                print("Upload Done");
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Container()));
               },

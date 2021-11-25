@@ -1,6 +1,6 @@
 import 'dart:io';
 
-class Report {
+class Search {
   String _title;
   String _category;
   String _value;
@@ -49,12 +49,8 @@ class Report {
     _anythingElse = anythingElse;
   }
 
-  void setImages(List<File> images) {
-    _images = images;
-  }
-
-  void setImageUrls(String imageUrl) {
-    _imageUrls.add(imageUrl);
+  void setImages(File image) {
+    _images.add(image);
   }
 
   String getTitle() {
@@ -95,9 +91,5 @@ class Report {
 
   List<File> getImages() {
     return _images;
-  }
-
-  List<String> getImageUrls() {
-    return _imageUrls;
   }
 }
