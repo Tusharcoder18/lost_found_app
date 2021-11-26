@@ -103,7 +103,7 @@ class _FullScreenState extends State<FullScreen> {
                 child: CarouselSlider(
                   items: List.generate(_imageUrls.length, (index) {
                     String url = _imageUrls[index];
-                    url = url.substring(1, url.length - 1);
+                    if (url[0] == '[') url = url.substring(1, url.length - 1);
                     return Image.network(url);
                   }),
                   options: CarouselOptions(),
