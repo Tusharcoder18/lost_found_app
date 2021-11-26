@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:lost_found_app/Lost_screens/lost_result_cards.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/Models/Search.dart';
+import 'package:lost_found_app/screens/final_screen.dart';
 import 'package:lost_found_app/screens/item_detail_fullscreen.dart';
 import 'package:lost_found_app/screens/sign_in.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
