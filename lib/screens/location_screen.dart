@@ -23,6 +23,8 @@ class _LocationScreenState extends State<LocationScreen> {
   String _fromTime = "FROM";
   String _toTime = "TO";
   String _location = "INDIA";
+  DateTime selectedDate = DateTime.now();
+  String _date;
   LatLng currentLocation;
   Set<Marker> markers;
 
@@ -83,6 +85,19 @@ class _LocationScreenState extends State<LocationScreen> {
     return time;
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+        _date = selectedDate.toString().substring(0, 10);
+      });
+  }
+
   Future<LatLng> getUserLocation() async {
     LocationManager.LocationData currentLocation;
 
@@ -123,7 +138,7 @@ class _LocationScreenState extends State<LocationScreen> {
             width: screenWidth,
             height: screenHeight * 0.5,
             child: GoogleMap(
-              mapType: MapType.hybrid,
+              mapType: MapType.normal,
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               initialCameraPosition: _kGooglePlex,
@@ -186,6 +201,21 @@ class _LocationScreenState extends State<LocationScreen> {
               ),
             ],
           ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            "Please enter the date you found the valuable:",
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 15),
+          CustomButton(
+            onTap: () => _selectDate(context),
+            color: Colors.white,
+            text: _date ?? "Select Date",
+            style: TextStyle(color: Colors.black),
+            icon: Icon(Icons.date_range),
+          ),
           Expanded(child: SizedBox()),
           CustomButton(
             onTap: () {
@@ -194,6 +224,7 @@ class _LocationScreenState extends State<LocationScreen> {
               context.read<Report>().setTimeFrom(_fromTime);
               context.read<Report>().setTimeTo(_toTime);
               context.read<Report>().setLocation(_location);
+              context.read<Report>().setDate(_date);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => MoreDetailsScreen()));
               //           }  else {

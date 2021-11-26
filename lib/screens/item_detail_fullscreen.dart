@@ -25,11 +25,32 @@ class _FullScreenState extends State<FullScreen> {
   Completer<GoogleMapController> _controller = Completer();
   LatLng _currentPos;
 
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }
+
+  LatLng convertToLatLng(pos) {
+    int ind1, ind2, ind3, ind4, index = 0;
+    while (!isNumeric(pos[index])) index++;
+    ind1 = index;
+    while (isNumeric(pos[index])) index++;
+    ind2 = index - 1;
+    while (!isNumeric(pos[index])) index++;
+    ind3 = index;
+    while (isNumeric(pos[index])) index++;
+    ind4 = index - 1;
+
+    double lat = double.parse(pos.substring(ind1, ind2));
+    double lon = double.parse(pos.substring(ind3, ind4));
+    return LatLng(lat, lon);
+  }
+
   CameraPosition getLocation(Report report) {
     var pos = report.getLocation();
-    double lat = double.parse(pos.substring(7, 23));
-    double lon = double.parse(pos.substring(25, 41));
-    _currentPos = LatLng(lat, lon);
+    _currentPos = convertToLatLng(pos);
     final CameraPosition _location = CameraPosition(
       target: _currentPos,
       zoom: 14.4746,
@@ -161,7 +182,7 @@ class _FullScreenState extends State<FullScreen> {
               width: screenWidth * 0.95,
               height: screenHeight * 0.25,
               child: GoogleMap(
-                mapType: MapType.normal,
+                mapType: MapType.terrain,
                 myLocationButtonEnabled: true,
                 myLocationEnabled: true,
                 initialCameraPosition:
