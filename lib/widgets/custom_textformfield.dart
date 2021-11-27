@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Custom text form field, should be used across the app to maintain common
 // appwide UI
+// ignore: non_constant_identifier_names
 Widget CustomTextFormField(
   BuildContext context, {
   final String title,

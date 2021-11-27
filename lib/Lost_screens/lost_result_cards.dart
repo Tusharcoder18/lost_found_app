@@ -18,7 +18,6 @@ class _LostCardsState extends State<LostCards> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData().then((value) {
       setState(() {

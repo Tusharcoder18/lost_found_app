@@ -60,7 +60,7 @@ class _FullScreenState extends State<FullScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          launch("tel:+918919650742"); //TODO: Add Uploaders number from backend
+          launch("tel:+918919650742");
         }, //
         child: Icon(
           Icons.call,
@@ -92,7 +92,7 @@ class _FullScreenState extends State<FullScreen> {
                 //   items: list
                 //       .map((item) => Container(
                 //             child: Center(
-                //                 //TODO: Display Image from backend here
+                //
                 //                 child: Text(
                 //               item.toString(),
                 //               style:
@@ -108,7 +108,7 @@ class _FullScreenState extends State<FullScreen> {
               color: Colors.white,
               width: screenWidth,
               child: Text(
-                _title, //TODO: Add Title Here from backend
+                _title,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -120,7 +120,7 @@ class _FullScreenState extends State<FullScreen> {
               color: Colors.white,
               width: screenWidth,
               child: Text(
-                '\nFound On ${_date}\n', //TODO: Add Found Date Here from backend
+                '\nFound On ${_date}\n',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
@@ -164,12 +164,11 @@ class _FullScreenState extends State<FullScreen> {
                 mapType: MapType.normal,
                 myLocationButtonEnabled: true,
                 myLocationEnabled: true,
-                initialCameraPosition:
-                    _location, //TODO: Add location from backend
+                initialCameraPosition: _location,
                 onMapCreated: (GoogleMapController controller) async {
                   _controller.complete(controller);
                 },
-                markers: markers, //TODO: Add marker to the found Location
+                markers: markers,
               ),
             ),
           ],

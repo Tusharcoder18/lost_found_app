@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/screens/categories.dart';
-import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 

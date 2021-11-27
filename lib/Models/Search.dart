@@ -10,6 +10,7 @@ class Search {
   String _timeFrom;
   String _uniqueInfo;
   String _anythingElse;
+  // ignore: unused_field
   List<String> _imageUrls = [];
   List<File> _images = [];
 

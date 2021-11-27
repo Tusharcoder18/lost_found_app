@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Lost_screens/Lost_categories.dart';
-import 'package:lost_found_app/screens/categories.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
-
 import 'select_image_screen.dart';
 
 /*

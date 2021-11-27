@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Lost_screens/lost_result_cards.dart';
-import 'package:lost_found_app/Models/Report.dart';
 import 'package:lost_found_app/Models/Search.dart';
-
-import 'package:lost_found_app/screens/review_details_screen.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
 import 'package:provider/src/provider.dart';
-
-import 'lost_review_details_screen.dart';
 
 /*
 The More details screen asks the user for more information related to the found

@@ -33,7 +33,6 @@ class _LostReviewDetailsScreenState extends State<LostReviewDetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _title = context.read<Search>().getTitle();
     _category = context.read<Search>().getCategory();

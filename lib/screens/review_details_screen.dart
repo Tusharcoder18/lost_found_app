@@ -31,7 +31,6 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _title = context.read<Report>().getTitle();
     _category = context.read<Report>().getCategory();
