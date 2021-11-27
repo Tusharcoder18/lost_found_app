@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/screens/final_screen.dart';
 import 'package:lost_found_app/services/upload_service.dart';
 import 'package:lost_found_app/widgets/custom_button.dart';
 import 'package:lost_found_app/widgets/custom_textformfield.dart';
@@ -28,6 +29,8 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
   String _timeFrom = "DUMMYTEXT";
   String _uniqueInfo = "DUMMYTEXT";
   List<File> _images;
+
+  bool _uploading = false;
 
   @override
   void initState() {
@@ -109,6 +112,9 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
             ),
             CustomButton(
               onTap: () async {
+                setState(() {
+                  _uploading = true;
+                });
                 context.read<Report>().setAnythingElse(_anythingElse);
                 print(_anythingElse);
                 await context
@@ -118,12 +124,14 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
                 await context.read<UploadService>().uploadReport(context);
                 print("Upload Done");
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Container()));
+                    MaterialPageRoute(builder: (context) => FinalScreen()));
               },
               color: Colors.white,
-              text: "Submit",
+              text: _uploading ? "Uploading" : "Submit",
               style: TextStyle(color: Colors.black),
-              icon: Icon(Icons.navigate_next),
+              icon: _uploading
+                  ? Icon(Icons.file_upload_outlined)
+                  : Icon(Icons.navigate_next),
             ),
           ],
         ),

@@ -71,7 +71,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        height: 320,
+        height: MediaQuery.of(context).size.height * 0.4,
         width: double.maxFinite,
         child: Card(
           elevation: 8,

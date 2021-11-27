@@ -25,11 +25,32 @@ class _FullScreenState extends State<FullScreen> {
   Completer<GoogleMapController> _controller = Completer();
   LatLng _currentPos;
 
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }
+
+  LatLng convertToLatLng(pos) {
+    int ind1, ind2, ind3, ind4, index = 0;
+    while (!isNumeric(pos[index])) index++;
+    ind1 = index;
+    while (isNumeric(pos[index])) index++;
+    ind2 = index - 1;
+    while (!isNumeric(pos[index])) index++;
+    ind3 = index;
+    while (isNumeric(pos[index])) index++;
+    ind4 = index - 1;
+
+    double lat = double.parse(pos.substring(ind1, ind2));
+    double lon = double.parse(pos.substring(ind3, ind4));
+    return LatLng(lat, lon);
+  }
+
   CameraPosition getLocation(Report report) {
     var pos = report.getLocation();
-    double lat = double.parse(pos.substring(7, 23));
-    double lon = double.parse(pos.substring(25, 41));
-    _currentPos = LatLng(lat, lon);
+    _currentPos = convertToLatLng(pos);
     final CameraPosition _location = CameraPosition(
       target: _currentPos,
       zoom: 14.4746,
@@ -57,118 +78,139 @@ class _FullScreenState extends State<FullScreen> {
         onTap: () {}));
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text('Result'),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
         onPressed: () async {
           launch("tel:+918919650742");
         }, //
         child: Icon(
           Icons.call,
-          color: Colors.white,
+          color: Colors.black,
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 2),
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CarouselSlider(
-                  items: List.generate(_imageUrls.length, (index) {
-                    String url = _imageUrls[index];
-                    url = url.substring(1, url.length - 1);
-                    return Image.network(url);
-                  }),
-                  options: CarouselOptions(),
+            Card(
+              elevation: 20,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: SizedBox(
+                height: screenHeight * 0.4,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: CarouselSlider(
+                    items: List.generate(_imageUrls.length, (index) {
+                      String url = _imageUrls[index];
+                      if (url[0] == '[') url = url.substring(1, url.length - 1);
+                      return Image.network(url);
+                    }),
+                    options: CarouselOptions(),
+                  ),
                 ),
-                // CarouselSlider(
-                //   options: CarouselOptions(),
-                //   items: list
-                //       .map((item) => Container(
-                //             child: Center(
-                //
-                //                 child: Text(
-                //               item.toString(),
-                //               style:
-                //                   TextStyle(color: Colors.black, fontSize: 30),
-                //             )),
-                //           ))
-                //       .toList(),
-                // ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(10),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
               color: Colors.white,
-              width: screenWidth,
-              child: Text(
-                _title,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.black),
+              child: SizedBox(
+                height: screenHeight * 0.1,
+                width: screenWidth,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    _title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        color: Colors.black),
+                  ),
+                ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(10),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
               color: Colors.white,
-              width: screenWidth,
-              child: Text(
-                '\nFound On ${_date}\n',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Colors.black),
+              child: SizedBox(
+                width: screenWidth,
+                height: screenHeight * 0.09,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    ' Found On ${_date}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30,
+                        color: Colors.black),
+                  ),
+                ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                // border: Border.all(color: Colors.black,width: 2),
-
-                color: Colors.white,
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              child: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Description:\n\n',
+              color: Colors.white,
+              child: SizedBox(
+                width: screenWidth,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Description:\n\n',
+                          style: TextStyle(
+                              fontSize: 25,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: _uniqueInfo,
+                          style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 1,
+                              color: Colors.black),
+                        )
+                      ],
                       style: TextStyle(
-                          fontSize: 25,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                          // fontSize: 15,
+                          ),
                     ),
-                    TextSpan(
-                      text: _uniqueInfo,
-                      style: TextStyle(
-                          fontSize: 15, letterSpacing: 1, color: Colors.black),
-                    )
-                  ],
-                  style: TextStyle(
-                      // fontSize: 15,
-                      ),
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              width: screenWidth * 0.95,
-              height: screenHeight * 0.25,
-              child: GoogleMap(
-                mapType: MapType.normal,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                initialCameraPosition: _location,
-                onMapCreated: (GoogleMapController controller) async {
-                  _controller.complete(controller);
-                },
-                markers: markers,
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: SizedBox(
+                width: screenWidth * 0.95,
+                height: screenHeight * 0.25,
+                child: GoogleMap(
+                  mapType: MapType.terrain,
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  initialCameraPosition: _location,
+                  onMapCreated: (GoogleMapController controller) async {
+                    _controller.complete(controller);
+                  },
+                  markers: markers,
+                ),
               ),
             ),
           ],

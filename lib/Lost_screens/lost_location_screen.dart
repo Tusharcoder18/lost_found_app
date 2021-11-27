@@ -23,11 +23,13 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
   String _fromTime = "FROM";
   String _toTime = "TO";
   String _location = "INDIA";
+  DateTime selectedDate = DateTime.now();
+  String _date;
   Set<Marker> markers;
   LatLng currentLocation;
   Completer<GoogleMapController> _controller = Completer();
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
+  CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
@@ -82,6 +84,19 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
     return time;
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+        _date = selectedDate.toString().substring(0, 10);
+      });
+  }
+
   Future<LatLng> getUserLocation() async {
     LocationManager.LocationData currentLocation;
 
@@ -95,6 +110,11 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
       final lng = currentLocation.longitude;
 
       final center = LatLng(lat, lng);
+
+      _kGooglePlex = CameraPosition(
+        target: center,
+        zoom: 14.4746,
+      );
 
       return center;
     } on Exception {
@@ -124,13 +144,14 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
             child: Container(
               color: Colors.white,
               child: GoogleMap(
-                mapType: MapType.hybrid,
+                mapType: MapType.normal,
                 myLocationButtonEnabled: true,
                 myLocationEnabled: true,
                 initialCameraPosition: _kGooglePlex,
                 onMapCreated: (GoogleMapController controller) async {
                   _controller.complete(controller);
                   currentLocation = await getUserLocation();
+                  setState(() {});
                 },
                 markers: markers,
                 onTap: (pos) {
@@ -188,6 +209,21 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
               ),
             ],
           ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            "Please enter the date you found the valuable:",
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 15),
+          CustomButton(
+            onTap: () => _selectDate(context),
+            color: Colors.white,
+            text: _date ?? "Select Date",
+            style: TextStyle(color: Colors.black),
+            icon: Icon(Icons.date_range),
+          ),
           Expanded(child: SizedBox()),
           CustomButton(
             onTap: () {
@@ -196,6 +232,7 @@ class _LostLocationScreenState extends State<LostLocationScreen> {
               context.read<Search>().setTimeFrom(_fromTime);
               context.read<Search>().setTimeTo(_toTime);
               context.read<Search>().setLocation(_location);
+              context.read<Search>().setDate(_date);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LostDetailsScreen()));
               //           }  else {
