@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/Lost_screens/Lost_categories.dart';
 import 'package:lost_found_app/screens/categories.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
+
+import 'select_image_screen.dart';
 
 /*
 Successfully authenticated users will be redirected to the Landing screen. 
@@ -53,7 +56,12 @@ class LandingScreen extends StatelessWidget {
               // Lost button
               Expanded(
                   child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LostCategories()));
+                },
                 color: Colors.black,
                 textColor: Colors.white,
                 child: Center(
@@ -68,7 +76,7 @@ class LandingScreen extends StatelessWidget {
                   child: MaterialButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Categories()));
+                      MaterialPageRoute(builder: (context) => ImageScreen()));
                 },
                 color: Colors.white,
                 child: Center(

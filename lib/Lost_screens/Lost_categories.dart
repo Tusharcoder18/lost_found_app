@@ -1,7 +1,8 @@
-import 'package:lost_found_app/Models/Report.dart';
-import 'package:lost_found_app/screens/location_screen.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:lost_found_app/Lost_screens/lost_location_screen.dart';
+import 'package:lost_found_app/Models/Search.dart';
+
+import 'package:provider/provider.dart';
 
 /*
 This screen shows the available categories to the user and also allows the user
@@ -9,7 +10,7 @@ to select a specific category. The selected category will then be uploaded in
 the Firebase for future usecase.
 */
 
-class Categories extends StatelessWidget {
+class LostCategories extends StatelessWidget {
   final List<IconData> _categoryIcons = [
     Icons.smartphone,
     Icons.access_alarm,
@@ -65,12 +66,12 @@ class Categories extends StatelessWidget {
                 onTap: () {
                   // Store the selected category in the Upload Service class
                   // context.read<UploadService>().setCategory(_category[index]);
-                  context.read<Report>().setCategory(_category[index]);
+                  context.read<Search>().setCategory(_category[index]);
                   print(_category[index]);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => LocationScreen()));
+                          builder: (context) => LostLocationScreen()));
                 },
               );
             },
