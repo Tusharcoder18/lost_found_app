@@ -103,7 +103,7 @@ class _LostDetailsScreenState extends State<LostDetailsScreen> {
                   }
                 },
                 color: Colors.white,
-                text: "Next",
+                text: "Search",
                 style: TextStyle(color: Colors.black),
                 icon: Icon(Icons.navigate_next),
               ),

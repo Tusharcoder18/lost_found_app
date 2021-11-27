@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lost_found_app/Models/Report.dart';
+import 'package:lost_found_app/Models/Search.dart';
 import 'package:lost_found_app/screens/item_detail_fullscreen.dart';
 import 'package:lost_found_app/services/download_service.dart';
 import 'package:provider/src/provider.dart';
@@ -15,6 +16,7 @@ class LostCards extends StatefulWidget {
 class _LostCardsState extends State<LostCards> {
   List<Report> _reports;
   bool isLoading = true;
+  bool noResults = false;
 
   @override
   void initState() {
@@ -28,8 +30,34 @@ class _LostCardsState extends State<LostCards> {
   }
 
   Future<void> getData() async {
-    _reports = await context.read<DownloadService>().fetchData();
-    for (int i = 0; i < _reports.length; i++) print(_reports[i].getTitle());
+    _reports =
+        await context.read<DownloadService>().fetchData(context.read<Search>());
+
+    if (_reports.isEmpty) noResults = true;
+  }
+
+  Widget buildCards() {
+    if (noResults) {
+      return Column(
+        children: [
+          Center(
+            child: Text("No results"),
+          ),
+        ],
+      );
+    } else {
+      if (isLoading)
+        return Center(child: CircularProgressIndicator());
+      else
+        return ListView.builder(
+          itemCount: _reports.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ProductCard(
+                report: _reports[index],
+                id: 1); // each listing will have a product id ...
+          },
+        );
+    }
   }
 
   @override
@@ -38,16 +66,7 @@ class _LostCardsState extends State<LostCards> {
       appBar: AppBar(
         title: Text('Similar Items Found'),
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _reports.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ProductCard(
-                    report: _reports[index],
-                    id: 1); // each listing will have a product id ...
-              },
-            ),
+      body: buildCards(),
     );
   }
 }
