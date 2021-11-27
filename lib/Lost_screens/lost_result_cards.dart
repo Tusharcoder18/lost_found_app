@@ -39,9 +39,13 @@ class _LostCardsState extends State<LostCards> {
   Widget buildCards() {
     if (noResults) {
       return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Text("No results"),
+            child: Text(
+              "No items found",
+              style: TextStyle(fontSize: 20),
+            ),
           ),
         ],
       );
