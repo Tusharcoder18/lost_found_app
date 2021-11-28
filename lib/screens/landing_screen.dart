@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lost_found_app/Lost_screens/Lost_categories.dart';
 import 'package:lost_found_app/services/authentication_service.dart';
@@ -10,7 +12,54 @@ Landing screen provides the user with two options for further navigation.
 1) LOST - proceeds to the lost home screen
 2) FOUND - guides the user to register a lost object
 */
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  void initState() {
+    super.initState();
+    Timer(
+        Duration(seconds: 7),
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => AfterSplashScreen())));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Color.fromRGBO(218, 140, 140, 1),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Lost & Found App',
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+            Image.network(
+              "https://i.pinimg.com/564x/cf/72/56/cf7256e7f560b138c8d9683f3c538c4b.jpg",
+            ),
+            Text(
+              '''\n"Honesty is the first chapter in the book of Wisdom"\n\t\t\t\t\t-Thomas Jefferson''',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AfterSplashScreen extends StatelessWidget {
+  const AfterSplashScreen({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +69,7 @@ class LandingScreen extends StatelessWidget {
             DrawerHeader(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: <Color>[Colors.black87, Colors.grey])),
+                      colors: <Color>[Colors.white, Colors.yellow])),
               child: Container(
                 child: Column(
                   children: [

@@ -5,12 +5,7 @@ import 'package:lost_found_app/Models/Search.dart';
 class DownloadService {
   final FirebaseFirestore _firestoreReference = FirebaseFirestore.instance;
 
-<<<<<<< HEAD
-  // ignore: missing_return
-  Future<List<Report>> fetchData() async {
-=======
   Future<List<Report>> fetchData(Search search) async {
->>>>>>> fbc4bb324363898261748729d948f4a0d81f3cdc
     try {
       List<Report> _reports = [];
       CollectionReference reportsReference =
